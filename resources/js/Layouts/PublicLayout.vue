@@ -36,12 +36,12 @@ defineProps({
     <div class="mx-auto flex max-w-[1280px] flex-col gap-6 px-5 py-12 text-sm text-slate-700 md:flex-row md:items-center md:justify-between">
       <div class="flex flex-wrap items-center gap-5">
         <p class="text-xl font-bold text-slate-950">PantauBBM</p>
-        <p>© 2026 PantauBBM Data</p>
+        <p>© 2026 Bimo Alfarrabi</p>
       </div>
       <div class="flex flex-wrap gap-8 text-base">
         <a href="/about" class="hover:text-slate-950">About</a>
         <a href="/about#data-source" class="hover:text-slate-950">Data Source</a>
-        <a href="mailto:hello@pantaubbm.local" class="hover:text-slate-950">Contact</a>
+        <a href="mailto:hello@bimoalfarrabi24@gmail.com" class="hover:text-slate-950">Contact</a>
       </div>
       <div class="w-full text-xs text-slate-500 md:w-auto md:text-right">
         <p>Data powered by Bensin API.</p>

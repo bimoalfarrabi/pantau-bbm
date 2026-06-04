@@ -58,7 +58,7 @@ function highlightedName(name, keyword) {
 <template>
   <div class="mx-auto mt-10 max-w-5xl rounded-[2.5rem] border border-slate-200 bg-white/95 px-5 py-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur">
     <label for="search" class="sr-only">Cari daerah</label>
-    <div class="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-5 py-3.5 transition focus-within:border-brand-primary focus-within:bg-white">
+    <div class="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-5 py-3.5 transition focus-within:border-brand-primary focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(59,130,246,0.12)]">
       <span class="text-xl text-slate-400">⌕</span>
       <input
         ref="searchInput"
@@ -66,7 +66,7 @@ function highlightedName(name, keyword) {
         :value="searchQuery"
         type="search"
         placeholder="Cari provinsi atau wilayah..."
-        class="w-full border-0 bg-transparent text-base text-slate-900 outline-none placeholder:text-slate-400 md:text-lg"
+        class="w-full appearance-none border-0 bg-transparent text-base text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:outline-none focus:ring-0 md:text-lg"
         @input="$emit('update:searchQuery', $event.target.value)"
         @keydown.down.prevent="$emit('select-next')"
         @keydown.up.prevent="$emit('select-previous')"

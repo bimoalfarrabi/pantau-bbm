@@ -23,10 +23,7 @@ defineProps({
         PantauBBM
       </a>
       <div class="flex items-center gap-6 text-sm text-slate-700">
-        <a href="/" class="hover:text-slate-950">Map View</a>
         <a href="/about" class="hover:text-slate-950">About</a>
-        <a href="/login" class="rounded-full border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-950">Masuk</a>
-        <a href="/#daftar-regional" class="rounded-full bg-slate-950 px-5 py-2.5 font-semibold text-white">Location</a>
       </div>
     </nav>
   </header>
@@ -44,7 +41,6 @@ defineProps({
       <div class="flex flex-wrap gap-8 text-base">
         <a href="/about" class="hover:text-slate-950">About</a>
         <a href="/about#data-source" class="hover:text-slate-950">Data Source</a>
-        <a href="/login" class="hover:text-slate-950">Masuk</a>
         <a href="mailto:hello@pantaubbm.local" class="hover:text-slate-950">Contact</a>
       </div>
       <div class="w-full text-xs text-slate-500 md:w-auto md:text-right">

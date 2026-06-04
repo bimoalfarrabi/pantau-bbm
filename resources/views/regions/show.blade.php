@@ -1,3 +1,9 @@
+@extends('layouts.public', [
+    'title' => 'Harga BBM '.($region?->name ?? str($slug)->replace('-', ' ')->title()).' Terbaru - PantauBBM',
+    'description' => 'Lihat harga BBM terbaru untuk wilayah '.($region?->name ?? str($slug)->replace('-', ' ')->title()).', tren harga, dan histori perubahan terakhir.',
+    'canonical' => route('regions.show', $slug),
+])
+
 @php
     $regionName = $region?->name ?? str($slug)->replace('-', ' ')->title();
     $prices = $region?->fuelPrices?->sortBy(fn ($price) => $price->fuelProduct?->sort_order ?? 0)->values() ?? collect();
@@ -32,12 +38,6 @@
         return [$price->fuel_product_id => $entries->values()];
     });
 @endphp
-
-@extends('layouts.public', [
-    'title' => 'Harga BBM '.$regionName.' Terbaru - PantauBBM',
-    'description' => 'Lihat harga BBM terbaru untuk wilayah '.$regionName.', tren harga, dan histori perubahan terakhir.',
-    'canonical' => route('regions.show', $slug),
-])
 
 @section('content')
 <section class="bg-slate-50">

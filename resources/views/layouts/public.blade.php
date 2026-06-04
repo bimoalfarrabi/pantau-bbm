@@ -18,19 +18,7 @@
     @endunless
 </head>
 <body class="font-sans bg-slate-50 text-slate-900 antialiased">
-    <header class="border-b border-slate-200 bg-slate-50">
-        <nav class="mx-auto flex max-w-[1280px] items-center justify-between px-5 py-4">
-            <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-bold tracking-tight text-slate-950">
-                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 text-slate-600">▣</span>
-                PantauBBM
-            </a>
-            <div class="flex items-center gap-6 text-sm text-slate-700">
-                <a href="{{ route('home') }}" class="hover:text-slate-950">Map View</a>
-                <a href="{{ route('about') }}" class="hover:text-slate-950">About</a>
-                <a href="{{ route('home') }}#daftar-regional" class="rounded-full bg-slate-950 px-5 py-2.5 font-semibold text-white">Location</a>
-            </div>
-        </nav>
-    </header>
+    @include('partials.public-navbar')
 
     <main>
         @yield('content')

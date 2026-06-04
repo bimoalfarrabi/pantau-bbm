@@ -12,6 +12,7 @@ const form = useForm({ force: false })
 const quickLinks = [
   { href: '/admin/settings', label: 'Settings' },
   { href: '/admin/logs', label: 'Logs' },
+  { href: '/admin/users', label: 'Users' },
 ]
 
 function runSync() {

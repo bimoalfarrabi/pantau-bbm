@@ -55,6 +55,20 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                                 <NavLink
                                     v-if="$page.props.auth.user?.is_admin"
+                                    :href="route('admin.users.index')"
+                                    :active="route().current('admin.users.*')"
+                                >
+                                    Users
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user?.is_admin"
+                                    :href="route('admin.audit-logs.index')"
+                                    :active="route().current('admin.audit-logs.*')"
+                                >
+                                    Audit
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user?.is_admin"
                                     :href="route('admin.settings.index')"
                                     :active="route().current('admin.settings.*')"
                                 >
@@ -180,6 +194,20 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('admin.logs.*')"
                         >
                             Logs
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user?.is_admin"
+                            :href="route('admin.users.index')"
+                            :active="route().current('admin.users.*')"
+                        >
+                            Users
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user?.is_admin"
+                            :href="route('admin.audit-logs.index')"
+                            :active="route().current('admin.audit-logs.*')"
+                        >
+                            Audit
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             v-if="$page.props.auth.user?.is_admin"

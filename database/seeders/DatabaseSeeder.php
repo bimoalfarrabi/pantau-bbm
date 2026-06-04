@@ -10,6 +10,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             FuelCatalogSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 }

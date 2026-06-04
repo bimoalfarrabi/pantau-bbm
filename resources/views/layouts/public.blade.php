@@ -12,7 +12,7 @@
     <meta property="og:url" content="{{ $canonical ?? url()->current() }}">
     <meta property="og:image" content="{{ asset('favicon.ico') }}">
     @unless(app()->environment('testing'))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/js/app.js'])
     @endunless
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased">

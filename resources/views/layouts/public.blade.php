@@ -11,11 +11,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ $canonical ?? url()->current() }}">
     <meta property="og:image" content="{{ asset('favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
     @unless(app()->environment('testing'))
         @vite(['resources/js/app.js'])
     @endunless
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased">
+<body class="font-sans bg-slate-50 text-slate-900 antialiased">
     <header class="border-b border-slate-200 bg-slate-50">
         <nav class="mx-auto flex max-w-[1280px] items-center justify-between px-5 py-4">
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-bold tracking-tight text-slate-950">

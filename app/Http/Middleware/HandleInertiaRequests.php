@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
                 'sync_message' => fn (): ?string => $request->session()->get('sync_message'),
                 'sync_finished_at' => fn (): ?string => $request->session()->get('sync_finished_at'),
             ],
+            'publicShell' => config('public_shell'),
         ];
     }
 }

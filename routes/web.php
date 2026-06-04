@@ -38,9 +38,16 @@ Route::get('/about', function () {
         }
     });
 
-    return view('about', [
+    $latestSyncAt = Arr::get($counts, 'latestSyncAt');
+
+    return Inertia::render('About', [
         'provinceCount' => (int) Arr::get($counts, 'regions', 0),
-        'latestSyncAt' => ($latestSyncAt = Arr::get($counts, 'latestSyncAt')) ? Carbon::parse($latestSyncAt) : null,
+        'latestSyncAt' => $latestSyncAt ? Carbon::parse($latestSyncAt)->timezone('Asia/Jakarta')->toDateTimeString() : null,
+        'seo' => [
+            'title' => 'About - PantauBBM',
+            'description' => 'Tentang PantauBBM, sumber data, dan tujuan platform.',
+            'canonical' => route('about'),
+        ],
     ]);
 })->name('about');
 Route::get('/wilayah/autocomplete', RegionAutocompleteController::class)->name('regions.autocomplete');

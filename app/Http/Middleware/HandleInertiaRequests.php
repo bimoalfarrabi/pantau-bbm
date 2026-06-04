@@ -34,6 +34,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'status' => fn (): ?string => $request->session()->get('status'),
+                'sync_status' => fn (): ?string => $request->session()->get('sync_status'),
+                'sync_message' => fn (): ?string => $request->session()->get('sync_message'),
+                'sync_finished_at' => fn (): ?string => $request->session()->get('sync_finished_at'),
+            ],
         ];
     }
 }

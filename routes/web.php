@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\SyncLogController as AdminSyncLogController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -28,6 +30,10 @@ Route::get('/dashboard', function () {
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function (): void {
     Route::get('/', fn () => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
+    Route::post('/sync', [AdminDashboardController::class, 'syncNow'])->name('sync');
+    Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
+    Route::get('/logs', [AdminSyncLogController::class, 'index'])->name('logs.index');
 });
 
 Route::middleware('auth')->group(function (): void {

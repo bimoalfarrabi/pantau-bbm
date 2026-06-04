@@ -46,6 +46,20 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Admin
                                 </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user?.is_admin"
+                                    :href="route('admin.logs.index')"
+                                    :active="route().current('admin.logs.*')"
+                                >
+                                    Logs
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user?.is_admin"
+                                    :href="route('admin.settings.index')"
+                                    :active="route().current('admin.settings.*')"
+                                >
+                                    Settings
+                                </NavLink>
                             </div>
                         </div>
 
@@ -159,6 +173,20 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('admin.dashboard')"
                         >
                             Admin
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user?.is_admin"
+                            :href="route('admin.logs.index')"
+                            :active="route().current('admin.logs.*')"
+                        >
+                            Logs
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user?.is_admin"
+                            :href="route('admin.settings.index')"
+                            :active="route().current('admin.settings.*')"
+                        >
+                            Settings
                         </ResponsiveNavLink>
                     </div>
 

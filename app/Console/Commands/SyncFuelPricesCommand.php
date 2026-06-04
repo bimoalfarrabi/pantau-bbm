@@ -6,9 +6,11 @@ use App\Models\SyncLog;
 use App\Services\BensinApi\BensinApiClient;
 use App\Services\BensinApi\BensinApiPriceParser;
 use App\Services\FuelPrices\FuelPriceSynchronizer;
+use App\Services\Settings\SettingRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Throwable;
 
 class SyncFuelPricesCommand extends Command
@@ -20,8 +22,18 @@ class SyncFuelPricesCommand extends Command
     public function handle(
         BensinApiClient $client,
         BensinApiPriceParser $parser,
-        FuelPriceSynchronizer $synchronizer
+        FuelPriceSynchronizer $synchronizer,
+        SettingRepository $settings
     ): int {
+        Config::set('fuel.api.base_url', $settings->get('fuel.api.base_url', config('fuel.api.base_url')));
+        Config::set('fuel.api.timeout', (int) $settings->get('fuel.api.timeout', config('fuel.api.timeout')));
+        Config::set('fuel.api.retry_attempts', (int) $settings->get('fuel.api.retry_attempts', config('fuel.api.retry_attempts')));
+        Config::set('fuel.api.retry_sleep_ms', (int) $settings->get('fuel.api.retry_sleep_ms', config('fuel.api.retry_sleep_ms')));
+        Config::set('fuel.api.user_agent', $settings->get('fuel.api.user_agent', config('fuel.api.user_agent')));
+        Config::set('fuel.sync.lock_store', $settings->get('fuel.sync.lock_store', config('fuel.sync.lock_store')));
+        Config::set('fuel.sync.lock_seconds', (int) $settings->get('fuel.sync.lock_seconds', config('fuel.sync.lock_seconds')));
+        Config::set('fuel.sync.cache_store', $settings->get('fuel.sync.cache_store', config('fuel.sync.cache_store')));
+
         $lock = Cache::store(config('fuel.sync.lock_store'))
             ->lock(config('fuel.sync.lock_key'), config('fuel.sync.lock_seconds'));
 

@@ -36,6 +36,7 @@ class AdminAccessTest extends TestCase
         $response->assertOk();
         $response->assertInertia(fn (Assert $page) => $page
             ->component('Admin/Dashboard')
+            ->has('metrics')
             ->has('sync')
             ->has('logs')
         );

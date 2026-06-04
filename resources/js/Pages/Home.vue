@@ -1,0 +1,240 @@
+<script setup>
+import { computed, nextTick, ref, watch } from 'vue'
+import { router } from '@inertiajs/vue3'
+import PublicLayout from '../Layouts/PublicLayout.vue'
+import SearchRegion from '../Components/Home/SearchRegion.vue'
+import RegionalFilterHeader from '../Components/Home/RegionalFilterHeader.vue'
+import RegionalPriceGrid from '../Components/Home/RegionalPriceGrid.vue'
+
+const props = defineProps({
+  regions: Array,
+  filters: Object,
+  products: Array,
+  regionalPrices: Array,
+  regionalMeta: Object,
+  seo: Object,
+})
+
+const searchQuery = ref(props.filters?.search || '')
+const debouncedSearchQuery = ref(searchQuery.value)
+const suggestions = ref([])
+const selectedIndex = ref(-1)
+const isSearching = ref(false)
+const activeProductSlug = ref(props.filters?.product || 'all')
+const sortMode = ref(props.filters?.sort || 'lowest')
+const isFiltering = ref(false)
+const currentPage = ref(props.regionalMeta?.currentPage || 1)
+const perPage = ref(props.regionalMeta?.perPage || 6)
+let filterTimer = null
+let debounceTimer = null
+let abortController = null
+let searchRequestId = 0
+
+watch(searchQuery, (value) => {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    debouncedSearchQuery.value = value
+    fetchSuggestions(value)
+    updateRegionalList({ search: value, page: 1 })
+  }, 220)
+})
+
+watch(suggestions, () => {
+  selectedIndex.value = suggestions.value.length > 0 ? 0 : -1
+})
+
+watch(
+  () => [currentPage.value, perPage.value, activeProductSlug.value, sortMode.value],
+  async () => {
+    await nextTick()
+    document.getElementById('daftar-regional')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  },
+)
+
+const normalizedKeyword = computed(() => debouncedSearchQuery.value.trim().toLowerCase())
+const activeProductLabel = computed(() => {
+  if (activeProductSlug.value === 'all') return 'Semua'
+  return props.products.find((product) => product.slug === activeProductSlug.value)?.name || 'Produk'
+})
+const visibleRegionalPrices = computed(() => props.regionalPrices || [])
+const visibleRegionCount = computed(() => props.regionalMeta?.total || 0)
+const productCount = computed(() => props.products.length)
+const totalPages = computed(() => props.regionalMeta?.lastPage || 1)
+const paginationStart = computed(() => visibleRegionCount.value === 0 ? 0 : ((currentPage.value - 1) * perPage.value) + 1)
+const paginationEnd = computed(() => Math.min(currentPage.value * perPage.value, visibleRegionCount.value))
+
+async function fetchSuggestions(value) {
+  abortController?.abort()
+  const requestId = ++searchRequestId
+
+  if (!value.trim()) {
+    suggestions.value = []
+    isSearching.value = false
+    return
+  }
+
+  abortController = new AbortController()
+  isSearching.value = true
+
+  try {
+    const params = new URLSearchParams()
+    if (value.trim()) params.set('q', value.trim())
+
+    const response = await fetch(`/wilayah/autocomplete?${params.toString()}`, {
+      headers: { Accept: 'application/json' },
+      signal: abortController.signal,
+    })
+
+    if (requestId === searchRequestId) {
+      suggestions.value = response.ok ? (await response.json()).data || [] : []
+    }
+  } catch (error) {
+    if (error.name !== 'AbortError' && requestId === searchRequestId) suggestions.value = []
+  } finally {
+    if (requestId === searchRequestId) isSearching.value = false
+  }
+}
+
+function selectNextSuggestion() {
+  if (suggestions.value.length === 0) return
+  selectedIndex.value = (selectedIndex.value + 1) % suggestions.value.length
+}
+
+function selectPreviousSuggestion() {
+  if (suggestions.value.length === 0) return
+  selectedIndex.value = selectedIndex.value <= 0 ? suggestions.value.length - 1 : selectedIndex.value - 1
+}
+
+function openSelectedSuggestion() {
+  const selectedSuggestion = suggestions.value[selectedIndex.value]
+  if (selectedSuggestion) window.location.href = selectedSuggestion.url || `/wilayah/${selectedSuggestion.slug}`
+}
+
+function handleSuggestionHover(index) {
+  selectedIndex.value = index
+}
+
+function resetFilter() {
+  updateRegionalList({ product: 'all', page: 1 })
+}
+
+function goToPage(page) {
+  updateRegionalList({ page: Math.min(Math.max(page, 1), totalPages.value) })
+}
+
+function setPerPage(value) {
+  updateRegionalList({ perPage: Number(value), page: 1 })
+}
+
+function setProduct(product) {
+  updateRegionalList({ product, page: 1 })
+}
+
+function setSort(sort) {
+  updateRegionalList({ sort, page: 1 })
+}
+
+function updateRegionalList(overrides = {}) {
+  const query = {
+    search: overrides.search ?? searchQuery.value,
+    product: overrides.product ?? activeProductSlug.value,
+    sort: overrides.sort ?? sortMode.value,
+    page: overrides.page ?? currentPage.value,
+    perPage: overrides.perPage ?? perPage.value,
+  }
+
+  const requestQuery = cleanRegionalQuery(query)
+
+  isFiltering.value = true
+
+  router.get('/', requestQuery, {
+    preserveState: true,
+    preserveScroll: true,
+    replace: true,
+    only: ['regionalPrices', 'regionalMeta', 'filters'],
+    onSuccess: () => {
+      searchQuery.value = query.search
+      debouncedSearchQuery.value = query.search
+      activeProductSlug.value = query.product
+      sortMode.value = query.sort
+      currentPage.value = query.page
+      perPage.value = query.perPage
+    },
+    onFinish: () => {
+      isFiltering.value = false
+    },
+  })
+}
+
+function cleanRegionalQuery(query) {
+  const cleanQuery = {}
+
+  if (query.search.trim() !== '') cleanQuery.search = query.search.trim()
+  if (query.product !== 'all') cleanQuery.product = query.product
+  if (query.sort !== 'lowest') cleanQuery.sort = query.sort
+  if (Number(query.page) > 1) cleanQuery.page = Number(query.page)
+  if (Number(query.perPage) !== 6) cleanQuery.perPage = Number(query.perPage)
+
+  return cleanQuery
+}
+</script>
+
+<template>
+  <PublicLayout :seo="seo">
+    <section class="border-b border-slate-200 bg-slate-50">
+      <div class="mx-auto max-w-[1280px] px-5 py-14 md:py-16 text-center">
+        <div class="mx-auto max-w-3xl">
+          <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-brand-primary"></span>
+            Data harga BBM regional
+          </div>
+          <h1 class="mt-6 text-4xl font-bold tracking-tight text-slate-950 md:text-6xl">Pantau harga BBM terkini</h1>
+          <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Cari provinsi, bandingkan daftar regional, dan buka detail wilayah dengan alur yang cepat.</p>
+        </div>
+
+        <SearchRegion
+          :search-query="searchQuery"
+          :debounced-search-query="debouncedSearchQuery"
+          :suggestions="suggestions"
+          :selected-index="selectedIndex"
+          :is-searching="isSearching"
+          @update:search-query="searchQuery = $event"
+          @select-next="selectNextSuggestion"
+          @select-previous="selectPreviousSuggestion"
+          @open-selected="openSelectedSuggestion"
+          @hover-suggestion="handleSuggestionHover"
+        />
+      </div>
+    </section>
+
+    <section id="daftar-regional" class="border-b border-slate-200 bg-slate-50">
+      <div class="mx-auto max-w-[1280px] px-5 py-16">
+        <RegionalFilterHeader
+          :active-product-slug="activeProductSlug"
+          :products="products"
+          :sort-mode="sortMode"
+          :visible-region-count="visibleRegionCount"
+          :product-count="productCount"
+          @update:active-product-slug="setProduct"
+          @update:sort-mode="setSort"
+        />
+
+        <RegionalPriceGrid
+          :is-filtering="isFiltering"
+          :visible-regional-prices="visibleRegionalPrices"
+          :active-product-label="activeProductLabel"
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          :pagination-start="paginationStart"
+          :pagination-end="paginationEnd"
+          :total-items="visibleRegionCount"
+          :per-page="perPage"
+          @reset-filter="resetFilter"
+          @go-to-page="goToPage"
+          @update:per-page="setPerPage"
+        />
+      </div>
+    </section>
+
+  </PublicLayout>
+</template>

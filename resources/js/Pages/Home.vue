@@ -18,7 +18,6 @@ const props = defineProps({
 const searchQuery = ref(props.filters?.search || '')
 const debouncedSearchQuery = ref(searchQuery.value)
 const suggestions = ref([])
-const selectedIndex = ref(-1)
 const isSearching = ref(false)
 const activeProductSlug = ref(props.filters?.product || 'all')
 const sortMode = ref(props.filters?.sort || 'lowest')
@@ -37,10 +36,6 @@ watch(searchQuery, (value) => {
     fetchSuggestions(value)
     updateRegionalList({ search: value, page: 1 })
   }, 220)
-})
-
-watch(suggestions, () => {
-  selectedIndex.value = suggestions.value.length > 0 ? 0 : -1
 })
 
 watch(
@@ -95,23 +90,9 @@ async function fetchSuggestions(value) {
   }
 }
 
-function selectNextSuggestion() {
-  if (suggestions.value.length === 0) return
-  selectedIndex.value = (selectedIndex.value + 1) % suggestions.value.length
-}
-
-function selectPreviousSuggestion() {
-  if (suggestions.value.length === 0) return
-  selectedIndex.value = selectedIndex.value <= 0 ? suggestions.value.length - 1 : selectedIndex.value - 1
-}
-
 function openSelectedSuggestion() {
-  const selectedSuggestion = suggestions.value[selectedIndex.value]
+  const selectedSuggestion = suggestions.value[0]
   if (selectedSuggestion) window.location.href = selectedSuggestion.url || `/wilayah/${selectedSuggestion.slug}`
-}
-
-function handleSuggestionHover(index) {
-  selectedIndex.value = index
 }
 
 function resetFilter() {
@@ -196,13 +177,9 @@ function cleanRegionalQuery(query) {
           :search-query="searchQuery"
           :debounced-search-query="debouncedSearchQuery"
           :suggestions="suggestions"
-          :selected-index="selectedIndex"
           :is-searching="isSearching"
           @update:search-query="searchQuery = $event"
-          @select-next="selectNextSuggestion"
-          @select-previous="selectPreviousSuggestion"
           @open-selected="openSelectedSuggestion"
-          @hover-suggestion="handleSuggestionHover"
         />
       </div>
     </section>

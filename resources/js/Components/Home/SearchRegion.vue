@@ -14,10 +14,6 @@ defineProps({
     type: Array,
     default: () => [],
   },
-  selectedIndex: {
-    type: Number,
-    default: -1,
-  },
   isSearching: {
     type: Boolean,
     default: false,
@@ -26,10 +22,7 @@ defineProps({
 
 defineEmits([
   'update:searchQuery',
-  'select-next',
-  'select-previous',
   'open-selected',
-  'hover-suggestion',
 ])
 
 const searchInput = ref(null)
@@ -68,8 +61,6 @@ function highlightedName(name, keyword) {
         placeholder="Cari provinsi atau wilayah..."
         class="w-full appearance-none border-0 bg-transparent text-base text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:outline-none focus:ring-0 md:text-lg"
         @input="$emit('update:searchQuery', $event.target.value)"
-        @keydown.down.prevent="$emit('select-next')"
-        @keydown.up.prevent="$emit('select-previous')"
         @keydown.enter.prevent="$emit('open-selected')"
       >
       <button
@@ -89,12 +80,10 @@ function highlightedName(name, keyword) {
       </div>
       <div class="grid gap-3 sm:grid-cols-2">
         <a
-          v-for="(region, index) in suggestions"
+          v-for="region in suggestions"
           :key="region.slug"
           :href="region.url || `/wilayah/${region.slug}`"
-          class="cursor-pointer rounded-2xl border px-5 py-4 text-base font-medium transition duration-200"
-          :class="index === selectedIndex ? 'border-brand-primary bg-blue-50 text-brand-primary shadow-sm' : 'border-slate-200 text-slate-700 hover:-translate-y-0.5 hover:border-brand-primary hover:bg-slate-50 hover:text-brand-primary'"
-          @mouseenter="$emit('hover-suggestion', index)"
+          class="cursor-pointer rounded-2xl border border-slate-200 px-5 py-4 text-base font-medium text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-brand-primary hover:bg-slate-50 hover:text-brand-primary"
         >
           <span>
             <template v-for="part in highlightedName(region.name, debouncedSearchQuery)" :key="`${region.slug}-${part.text}-${part.matches}`">
@@ -108,6 +97,5 @@ function highlightedName(name, keyword) {
       </div>
     </div>
 
-    <p v-if="debouncedSearchQuery || isSearching" class="mt-4 text-center text-sm text-slate-500">Gunakan panah atas/bawah dan Enter untuk memilih daerah.</p>
   </div>
 </template>

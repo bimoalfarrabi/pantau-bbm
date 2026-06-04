@@ -11,13 +11,38 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionAutocompleteController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\RegionCountController;
+use App\Models\Region;
+use App\Models\SyncLog;
 use Illuminate\Foundation\Application;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/riwayat', HistoryController::class)->name('history.index');
-Route::view('/about', 'about')->name('about');
+Route::get('/about', function () {
+    $counts = Cache::store('file')->remember('about.page.counts.v2', now()->addMinutes(30), function (): array {
+        try {
+            return [
+                'regions' => Region::query()->count(),
+                'latestSyncAt' => SyncLog::query()->latest('started_at')->value('finished_at') ?? SyncLog::query()->latest('started_at')->value('started_at'),
+            ];
+        } catch (QueryException) {
+            return [
+                'regions' => 0,
+                'latestSyncAt' => null,
+            ];
+        }
+    });
+
+    return view('about', [
+        'provinceCount' => (int) Arr::get($counts, 'regions', 0),
+        'latestSyncAt' => ($latestSyncAt = Arr::get($counts, 'latestSyncAt')) ? Carbon::parse($latestSyncAt) : null,
+    ]);
+})->name('about');
 Route::get('/wilayah/autocomplete', RegionAutocompleteController::class)->name('regions.autocomplete');
 Route::get('/wilayah/count', RegionCountController::class)->name('regions.count');
 Route::get('/wilayah/{slug}', [RegionController::class, 'show'])->name('regions.show');

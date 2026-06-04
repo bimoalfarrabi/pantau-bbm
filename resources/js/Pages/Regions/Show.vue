@@ -23,7 +23,7 @@ const formatter = new Intl.NumberFormat('id-ID')
 const regionName = computed(() => props.region?.name || titleCase(props.slug.replaceAll('-', ' ')))
 const prices = computed(() => props.region?.prices || [])
 const lastSyncedAt = computed(() => prices.value.map((price) => price.last_synced_at).filter(Boolean).sort().at(-1))
-const selectedProduct = computed(() => props.historyProducts?.find((product) => product.id === selectedProductId.value))
+const selectedProduct = computed(() => props.historyProducts?.find((product) => String(product.id) === String(selectedProductId.value)))
 const selectedEntries = computed(() => props.historyEntries?.[selectedProductId.value] || [])
 const latestChanges = computed(() => Object.values(props.historyEntries || {}).flat().sort((a, b) => new Date(b.changedAt) - new Date(a.changedAt)).slice(0, 24))
 const trendData = computed(() => {

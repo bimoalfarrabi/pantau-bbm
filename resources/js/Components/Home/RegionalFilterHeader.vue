@@ -59,7 +59,7 @@ defineEmits([
     <div class="mt-5 flex items-center gap-3 overflow-x-auto pb-1 text-sm [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <span class="shrink-0 rounded-full bg-slate-100 px-4 py-2 font-semibold text-slate-500">Produk</span>
       <button
-        class="shrink-0 cursor-pointer rounded-full px-5 py-2 font-semibold transition duration-200"
+        class="shrink-0 cursor-pointer rounded-full px-5 py-2 font-semibold transition-colors duration-200"
         :class="activeProductSlug === 'all' ? 'bg-slate-950 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-primary hover:bg-blue-50 hover:text-brand-primary'"
         :aria-pressed="activeProductSlug === 'all'"
         @click="$emit('update:activeProductSlug', 'all')"
@@ -69,7 +69,7 @@ defineEmits([
       <button
         v-for="product in products"
         :key="product.slug"
-        class="shrink-0 cursor-pointer rounded-full px-5 py-2 font-semibold transition duration-200"
+        class="shrink-0 cursor-pointer rounded-full px-5 py-2 font-semibold transition-colors duration-200"
         :class="activeProductSlug === product.slug ? 'bg-slate-950 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-primary hover:bg-blue-50 hover:text-brand-primary'"
         :aria-pressed="activeProductSlug === product.slug"
         @click="$emit('update:activeProductSlug', product.slug)"

@@ -49,7 +49,7 @@ function highlightedName(name, keyword) {
 </script>
 
 <template>
-  <div class="mx-auto mt-10 max-w-5xl rounded-[2.5rem] border border-slate-200 bg-white/95 px-5 py-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur">
+  <div class="mx-auto mt-8 max-w-5xl rounded-[2.5rem] border border-slate-200 bg-white/95 px-5 py-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur">
     <label for="search" class="sr-only">Cari daerah</label>
     <div class="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-5 py-3.5 transition focus-within:border-brand-primary focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(59,130,246,0.12)]">
       <span class="text-xl text-slate-400">⌕</span>

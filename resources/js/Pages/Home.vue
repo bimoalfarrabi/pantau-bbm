@@ -163,13 +163,9 @@ function cleanRegionalQuery(query) {
 <template>
   <PublicLayout :seo="seo">
     <section class="border-b border-slate-200 bg-slate-50">
-      <div class="mx-auto max-w-[1280px] px-5 py-14 md:py-16 text-center">
+      <div class="mx-auto max-w-[1280px] px-5 py-12 md:py-14 text-center">
         <div class="mx-auto max-w-3xl">
-          <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
-            <span class="h-2 w-2 rounded-full bg-brand-primary"></span>
-            Data harga BBM regional
-          </div>
-          <h1 class="mt-6 text-4xl font-bold tracking-tight text-slate-950 md:text-6xl">Pantau harga BBM terkini</h1>
+          <h1 class="text-4xl font-bold tracking-tight text-slate-950 md:text-6xl">Pantau harga BBM terkini</h1>
           <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Cari provinsi, bandingkan daftar regional, dan buka detail wilayah dengan alur yang cepat.</p>
         </div>
 
@@ -185,7 +181,7 @@ function cleanRegionalQuery(query) {
     </section>
 
     <section id="daftar-regional" class="border-b border-slate-200 bg-slate-50">
-      <div class="mx-auto max-w-[1280px] px-5 py-16">
+      <div class="mx-auto max-w-[1280px] px-5 py-12 md:py-14">
         <RegionalFilterHeader
           :active-product-slug="activeProductSlug"
           :products="products"

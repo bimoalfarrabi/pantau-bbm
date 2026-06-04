@@ -122,7 +122,7 @@ function priceRowLabel(region, price) {
           v-for="region in visibleRegionalPrices"
           :key="region.slug"
           :href="`/wilayah/${region.slug}`"
-          class="group block rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-brand-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/40"
+          class="group block rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-200 hover:border-brand-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/40"
         >
           <div class="mb-5 flex items-start justify-between gap-3">
             <div>
@@ -155,7 +155,7 @@ function priceRowLabel(region, price) {
               </span>
             </div>
           </div>
-          <div class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition group-hover:text-slate-950">
+          <div class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-colors group-hover:text-slate-950">
             <span>Lihat detail wilayah</span>
             <span aria-hidden="true">→</span>
           </div>
@@ -163,7 +163,7 @@ function priceRowLabel(region, price) {
       </div>
     </Transition>
 
-      <div v-if="!isFiltering && visibleRegionalPrices.length > 0" class="mt-8 rounded-[1.5rem] border border-slate-200 bg-white px-5 py-4 shadow-sm">
+    <div v-if="!isFiltering && visibleRegionalPrices.length > 0" class="mt-8 rounded-[1.5rem] border border-slate-200 bg-white px-5 py-4 shadow-sm">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
           <p class="text-sm text-slate-600">
@@ -175,14 +175,14 @@ function priceRowLabel(region, price) {
             <span class="relative inline-flex">
               <select
                 :value="perPage"
-                class="min-w-[4.5rem] appearance-none rounded-full border border-slate-200 bg-white bg-none py-1.5 pl-3 pr-9 text-sm font-semibold text-slate-700 shadow-sm outline-none transition hover:border-slate-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15"
+                class="min-w-[4.5rem] appearance-none rounded-full border border-slate-200 bg-white bg-none py-1.5 pl-3 pr-9 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:border-slate-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15"
                 @change="$emit('update:per-page', $event.target.value)"
               >
                 <option value="6">6</option>
                 <option value="9">9</option>
                 <option value="12">12</option>
               </select>
-              <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">▾</span>
+              <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400" aria-hidden="true">▾</span>
             </span>
           </label>
         </div>
@@ -190,7 +190,7 @@ function priceRowLabel(region, price) {
         <div class="flex flex-wrap items-center gap-2 lg:justify-end">
           <button
             type="button"
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
             :disabled="currentPage <= 1"
             @click="$emit('go-to-page', currentPage - 1)"
           >
@@ -199,7 +199,7 @@ function priceRowLabel(region, price) {
           <button
             v-if="showFirstGap"
             type="button"
-            class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary"
+            class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary"
             @click="$emit('go-to-page', 1)"
           >
             1
@@ -209,8 +209,8 @@ function priceRowLabel(region, price) {
             v-for="page in pageNumbers"
             :key="page"
             type="button"
-            class="h-10 min-w-10 rounded-full px-3 text-sm font-semibold transition duration-200"
-            :class="page === currentPage ? 'bg-gradient-to-r from-slate-950 to-slate-800 text-white shadow-lg shadow-slate-950/20 ring-1 ring-slate-900/10 scale-105' : 'border border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary'"
+            class="h-10 min-w-10 rounded-full px-3 text-sm font-semibold transition-colors duration-200"
+            :class="page === currentPage ? 'bg-gradient-to-r from-slate-950 to-slate-800 text-white shadow-lg shadow-slate-950/20 ring-1 ring-slate-900/10' : 'border border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary'"
             :aria-current="page === currentPage ? 'page' : null"
             @click="$emit('go-to-page', page)"
           >
@@ -220,14 +220,14 @@ function priceRowLabel(region, price) {
           <button
             v-if="showLastGap"
             type="button"
-            class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary"
+            class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary"
             @click="$emit('go-to-page', totalPages)"
           >
             {{ totalPages }}
           </button>
           <button
             type="button"
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
+            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
             :disabled="currentPage >= totalPages"
             @click="$emit('go-to-page', currentPage + 1)"
           >

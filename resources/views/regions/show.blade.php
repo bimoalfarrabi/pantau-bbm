@@ -40,7 +40,7 @@
 ])
 
 @section('content')
-<section class="border-b border-slate-200 bg-slate-50">
+<section class="bg-slate-50">
     <div class="mx-auto max-w-[1280px] px-5 py-12 md:py-16">
         <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
             <a href="{{ route('home') }}" class="hover:text-slate-950">Beranda</a>
@@ -66,7 +66,7 @@
     </div>
 </section>
 
-<section class="mx-auto max-w-[1280px] px-5 py-10 md:py-14">
+<section class="mx-auto max-w-[1280px] px-5 py-2 md:pt-2 md:pb-4">
     @if (! $region || $prices->isEmpty())
         <div class="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
             <p class="text-xl font-semibold text-slate-950">Data wilayah ini belum tersedia.</p>

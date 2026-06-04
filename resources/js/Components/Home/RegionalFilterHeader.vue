@@ -40,11 +40,19 @@ defineEmits([
       <div class="flex flex-wrap items-center gap-3 lg:justify-end">
         <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">{{ visibleRegionCount }} region</span>
         <label class="sr-only" for="sortMode">Urutkan daftar regional</label>
-        <select id="sortMode" :value="sortMode" class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 outline-none transition hover:border-slate-300 focus:border-brand-primary" @change="$emit('update:sortMode', $event.target.value)">
-          <option value="name">Urutkan: Nama</option>
-          <option value="lowest">Harga terendah</option>
-          <option value="highest">Harga tertinggi</option>
-        </select>
+        <span class="relative inline-flex">
+          <select
+            id="sortMode"
+            :value="sortMode"
+            class="min-w-[11rem] appearance-none rounded-full border border-slate-200 bg-white bg-none py-2 pl-4 pr-10 text-sm font-semibold text-slate-700 shadow-sm outline-none transition hover:border-slate-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15"
+            @change="$emit('update:sortMode', $event.target.value)"
+          >
+            <option value="name">Urutkan: Nama</option>
+            <option value="lowest">Harga terendah</option>
+            <option value="highest">Harga tertinggi</option>
+          </select>
+          <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">▾</span>
+        </span>
       </div>
     </div>
 

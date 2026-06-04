@@ -172,11 +172,18 @@ function priceRowLabel(region, price) {
           </p>
           <label class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
             Per halaman
-            <select :value="perPage" class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 outline-none transition hover:border-slate-300 focus:border-brand-primary" @change="$emit('update:per-page', $event.target.value)">
-              <option value="6">6</option>
-              <option value="9">9</option>
-              <option value="12">12</option>
-            </select>
+            <span class="relative inline-flex">
+              <select
+                :value="perPage"
+                class="min-w-[4.5rem] appearance-none rounded-full border border-slate-200 bg-white bg-none py-1.5 pl-3 pr-9 text-sm font-semibold text-slate-700 shadow-sm outline-none transition hover:border-slate-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15"
+                @change="$emit('update:per-page', $event.target.value)"
+              >
+                <option value="6">6</option>
+                <option value="9">9</option>
+                <option value="12">12</option>
+              </select>
+              <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">▾</span>
+            </span>
           </label>
         </div>
 

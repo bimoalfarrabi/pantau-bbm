@@ -61,10 +61,10 @@ function destroyUser() {
           <label class="block"><span class="text-sm font-medium text-slate-700">Konfirmasi Password</span><input v-model="form.password_confirmation" type="password" class="mt-1 w-full rounded-xl border-slate-300"></label>
         </div>
         <label class="flex items-center gap-2 text-sm text-slate-700"><input v-model="form.is_admin" type="checkbox" class="rounded border-slate-300 text-slate-950"> Admin</label>
-        <div class="flex flex-wrap items-center gap-3">
-          <button class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800" :disabled="form.processing">{{ form.processing ? 'Menyimpan...' : 'Simpan' }}</button>
-          <Link href="/admin/users" class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950">Batal</Link>
-          <button v-if="isEdit" type="button" class="rounded-full border border-rose-200 px-5 py-2.5 text-sm font-semibold text-rose-700" :disabled="form.processing" @click="destroyUser">Hapus</button>
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <button class="w-full rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 sm:w-auto" :disabled="form.processing">{{ form.processing ? 'Menyimpan...' : 'Simpan' }}</button>
+          <Link href="/admin/users" class="w-full rounded-full border border-slate-200 bg-white px-5 py-2.5 text-center text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 sm:w-auto">Batal</Link>
+          <button v-if="isEdit" type="button" class="w-full rounded-full border border-rose-200 px-5 py-2.5 text-sm font-semibold text-rose-700 sm:w-auto" :disabled="form.processing" @click="destroyUser">Hapus</button>
         </div>
       </form>
     </div>

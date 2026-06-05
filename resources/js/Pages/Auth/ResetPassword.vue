@@ -60,7 +60,7 @@ const submit = () => {
         <InputError class="mt-2" :message="form.errors.password_confirmation" />
       </div>
 
-      <div class="mt-6 flex items-center justify-end">
+      <div class="mt-6 flex justify-end">
         <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
           Simpan kata sandi baru
         </PrimaryButton>

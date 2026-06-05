@@ -20,16 +20,16 @@ defineProps({ logs: Object })
     </template>
 
     <div class="mx-auto max-w-[1280px] px-5 py-10">
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <div v-if="logs.data.length" class="space-y-4">
           <article v-for="log in logs.data" :key="log.id" class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ log.action }}</div>
                 <div class="mt-1 font-medium text-slate-950">{{ log.message }}</div>
                 <div class="mt-2 text-sm text-slate-600">Actor: {{ log.actor?.name }} · {{ log.actor?.email }}</div>
               </div>
-              <div class="text-xs text-slate-500">{{ log.createdAt }}</div>
+              <div class="text-xs text-slate-500 sm:text-right">{{ log.createdAt }}</div>
             </div>
           </article>
         </div>
@@ -37,7 +37,7 @@ defineProps({ logs: Object })
           Audit log belum ada.
         </div>
 
-        <div v-if="logs.links?.length > 3" class="mt-6 flex flex-wrap gap-2">
+        <div v-if="logs.links?.length > 3" class="mt-6 flex flex-wrap gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Link
             v-for="link in logs.links"
             :key="link.label"

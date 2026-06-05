@@ -23,8 +23,8 @@ const adminLinks = [
   <div class="min-h-screen bg-slate-50 text-slate-900">
     <nav class="border-b border-slate-200 bg-slate-50/95 backdrop-blur">
       <div class="mx-auto max-w-[1280px] px-5 py-4">
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex min-w-0 items-center gap-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap">
+          <div class="flex min-w-0 flex-1 items-center gap-4 sm:gap-8">
             <Link :href="route('admin.dashboard')" class="shrink-0">
               <BrandMark :label="publicShell.brand || 'PantauBBM'" suffix="Admin" />
             </Link>
@@ -90,7 +90,7 @@ const adminLinks = [
     </nav>
 
     <header v-if="$slots.header" class="border-b border-slate-200 bg-white">
-      <div class="mx-auto max-w-[1280px] px-5 py-8">
+      <div class="mx-auto max-w-[1280px] px-5 py-6 sm:py-8">
         <slot name="header" />
       </div>
     </header>

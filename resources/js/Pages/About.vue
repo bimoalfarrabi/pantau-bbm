@@ -87,7 +87,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
 
       <div class="mt-16 grid gap-8 lg:grid-cols-2">
         <section>
-          <h2 class="text-3xl font-medium tracking-tight text-slate-950">Creator</h2>
+          <h2 class="text-2xl font-medium tracking-tight text-slate-950 sm:text-3xl">Creator</h2>
           <div class="mt-4 border-t border-slate-200 pt-8">
             <UiCard>
               <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
@@ -104,7 +104,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
         </section>
 
         <section>
-          <h2 class="text-3xl font-medium tracking-tight text-slate-950">{{ content.sourcesTitle || 'Sources & Credits' }}</h2>
+          <h2 class="text-2xl font-medium tracking-tight text-slate-950 sm:text-3xl">{{ content.sourcesTitle || 'Sources & Credits' }}</h2>
           <div class="mt-4 border-t border-slate-200 pt-8">
             <UiCard>
               <div class="space-y-7">

@@ -164,9 +164,9 @@ function barHeight(price) {
           <span class="text-slate-950">{{ regionName }}</span>
         </div>
 
-        <div class="mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div class="mt-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6">
           <SectionHeader :title="regionName" size="display" :description="`Pembaruan terakhir: ${formatDate(lastSyncedAt)} WIB`" />
-          <div class="inline-flex w-fit items-center gap-3 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-sm">
+          <div class="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-950 shadow-sm sm:w-fit sm:px-5">
             <span class="h-3 w-3 rounded-full bg-emerald-500"></span>
             {{ prices.length > 0 ? 'Data tersedia' : 'Data belum tersedia' }}
           </div>
@@ -189,43 +189,43 @@ function barHeight(price) {
         </div>
       </div>
       <div v-else>
-        <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
-          <UiCard>
-            <div class="mb-8 flex items-center gap-3">
-              <h2 class="text-2xl font-bold text-slate-950">Harga Saat Ini</h2>
-            </div>
+          <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
+            <UiCard>
+              <div class="mb-8 flex items-center gap-3">
+                <h2 class="text-2xl font-bold text-slate-950">Harga Saat Ini</h2>
+              </div>
 
-            <div class="divide-y divide-slate-200">
-              <div v-for="price in prices" :key="price.fuel_product_id" class="py-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div>
+              <div class="divide-y divide-slate-200">
+                <div v-for="price in prices" :key="price.fuel_product_id" class="py-5">
+                  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
                     <span class="inline-flex rounded-md px-3 py-1 text-sm font-semibold" :class="badgeClass(ronLabels[price.product?.name?.toLowerCase()] || 'BBM')">
                       {{ ronLabels[price.product?.name?.toLowerCase()] || 'BBM' }}
                     </span>
                     <h3 class="mt-3 text-xl font-bold text-slate-950">{{ price.product?.name || 'Produk' }}</h3>
                     <p class="mt-1 text-sm text-slate-500">Harga regional {{ regionName }}</p>
                   </div>
-                  <div class="text-right">
-                    <p class="text-2xl font-bold text-slate-950">{{ formatPrice(price.price) }}</p>
-                    <p class="mt-1 text-sm font-semibold" :class="currentPriceDeltaClass(price)">{{ currentPriceDeltaLabel(price) }}</p>
+                    <div class="text-left sm:text-right">
+                      <p class="text-2xl font-bold text-slate-950">{{ formatPrice(price.price) }}</p>
+                      <p class="mt-1 text-sm font-semibold" :class="currentPriceDeltaClass(price)">{{ currentPriceDeltaLabel(price) }}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
             </div>
           </UiCard>
 
           <div class="space-y-6">
             <UiCard>
-              <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <h2 class="text-2xl font-bold text-slate-950">Tren Harga</h2>
-                  <p class="mt-1 text-sm text-slate-500">{{ trendSummary }}</p>
+                <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <h2 class="text-2xl font-bold text-slate-950">Tren Harga</h2>
+                    <p class="mt-1 text-sm text-slate-500">{{ trendSummary }}</p>
+                  </div>
+                  <select v-model="selectedProductId" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 outline-none focus:border-slate-950 focus:ring-0 md:w-auto">
+                    <option value="all">• Semua Produk</option>
+                    <option v-for="product in historyProducts" :key="product.id" :value="product.id">{{ product.name }}</option>
+                  </select>
                 </div>
-              <select v-model="selectedProductId" class="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 outline-none focus:border-slate-950 focus:ring-0">
-                <option value="all">• Semua Produk</option>
-                <option v-for="product in historyProducts" :key="product.id" :value="product.id">{{ product.name }}</option>
-              </select>
-              </div>
 
               <div v-if="trendData.length === 0" class="mt-8 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Histori belum tersedia untuk produk ini.</div>
               <div v-else class="mt-8 flex h-64 items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">

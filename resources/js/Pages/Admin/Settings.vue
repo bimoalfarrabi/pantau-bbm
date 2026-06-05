@@ -146,24 +146,24 @@ async function fetchGithubProfile() {
               </label>
             </template>
           </div>
-          <div v-if="section.title === 'About Page'" class="mt-6 flex flex-wrap items-center gap-3">
-            <button type="button" class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-50" :disabled="githubFetch.processing" @click="fetchGithubProfile">
+          <div v-if="section.title === 'About Page'" class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <button type="button" class="w-full rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto" :disabled="githubFetch.processing" @click="fetchGithubProfile">
               {{ githubFetch.processing ? 'Mengambil...' : 'Fetch GitHub' }}
             </button>
             <span v-if="githubFetch.message" class="text-sm font-medium text-emerald-700">{{ githubFetch.message }}</span>
             <span v-if="githubFetch.error" class="text-sm font-medium text-rose-700">{{ githubFetch.error }}</span>
           </div>
-          <div v-if="section.title === 'About Page'" class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div v-if="section.title === 'About Page'" class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">About Preview</p>
             <div class="mt-4 grid gap-5 lg:grid-cols-[1.35fr_0.85fr]">
-              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
                 <h4 class="text-2xl font-semibold tracking-tight text-slate-950">{{ form.ABOUT_MISSION_TITLE || 'The Mission' }}</h4>
                 <div class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
                   <p v-for="paragraph in (form.ABOUT_MISSION_BODY || '').split('\n').filter(Boolean)" :key="paragraph">{{ paragraph }}</p>
                 </div>
               </div>
-              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <div class="flex gap-4">
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+                <div class="flex flex-col gap-4 sm:flex-row">
                   <img v-if="form.ABOUT_CREATOR_PHOTO_URL" :src="form.ABOUT_CREATOR_PHOTO_URL" alt="Creator preview" class="h-20 w-20 rounded-full object-cover shadow-sm">
                   <div v-else class="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xl font-semibold text-white shadow-sm">
                     {{ (form.ABOUT_CREATOR_NAME || 'PB').split(' ').map((word) => word[0]).join('').slice(0, 2) }}
@@ -177,31 +177,31 @@ async function fetchGithubProfile() {
                 </div>
               </div>
             </div>
-            <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
               <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">{{ form.ABOUT_SOURCES_TITLE || 'Sources & Credits' }}</p>
               <div class="mt-5 space-y-5">
-                <div class="flex gap-4">
+                <div class="flex flex-col gap-4 sm:flex-row">
                   <div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg></div>
                   <div>
                     <h4 class="text-lg font-semibold text-slate-950">{{ form.ABOUT_SOURCE_ONE_TITLE || 'Bensin API' }}</h4>
                     <p class="mt-1 text-sm leading-6 text-slate-600">{{ form.ABOUT_SOURCE_ONE_DESCRIPTION || 'Sumber utama harga BBM yang dipakai untuk sinkronisasi data dan pembaruan tampilan.' }}</p>
-                    <p v-if="form.ABOUT_SOURCE_ONE_URL" class="mt-2 text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_ONE_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_ONE_URL }}</p>
+                    <p v-if="form.ABOUT_SOURCE_ONE_URL" class="mt-2 break-all text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_ONE_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_ONE_URL }}</p>
                   </div>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col gap-4 sm:flex-row">
                   <div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path><path d="m8 4 4 4-4 4"></path></svg></div>
                   <div>
                     <h4 class="text-lg font-semibold text-slate-950">{{ form.ABOUT_SOURCE_TWO_TITLE || 'Open Source Stack' }}</h4>
                     <p class="mt-1 text-sm leading-6 text-slate-600">{{ form.ABOUT_SOURCE_TWO_DESCRIPTION || 'Dibangun dengan Laravel, Tailwind CSS, dan komponen frontend yang ringan supaya pengalaman tetap konsisten.' }}</p>
-                    <p v-if="form.ABOUT_SOURCE_TWO_URL" class="mt-2 text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_TWO_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_TWO_URL }}</p>
+                    <p v-if="form.ABOUT_SOURCE_TWO_URL" class="mt-2 break-all text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_TWO_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_TWO_URL }}</p>
                   </div>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col gap-4 sm:flex-row">
                   <div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M7 21V8"></path><path d="M12 21V3"></path><path d="M17 21v-8"></path></svg></div>
                   <div>
                     <h4 class="text-lg font-semibold text-slate-950">{{ form.ABOUT_SOURCE_THREE_TITLE || 'Disclaimer' }}</h4>
                     <p class="mt-1 text-sm leading-6 text-slate-600">{{ form.ABOUT_SOURCE_THREE_DESCRIPTION || 'PantauBBM adalah platform independen dan bukan situs resmi Pertamina atau pemerintah Indonesia.' }}</p>
-                    <p v-if="form.ABOUT_SOURCE_THREE_URL" class="mt-2 text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_THREE_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_THREE_URL }}</p>
+                    <p v-if="form.ABOUT_SOURCE_THREE_URL" class="mt-2 break-all text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_THREE_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_THREE_URL }}</p>
                   </div>
                 </div>
               </div>
@@ -209,11 +209,11 @@ async function fetchGithubProfile() {
           </div>
         </details>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <button class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800" :disabled="form.processing">
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <button class="w-full rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 sm:w-auto" :disabled="form.processing">
             {{ form.processing ? 'Menyimpan...' : 'Simpan' }}
           </button>
-          <Link href="/admin/dashboard" class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950">Kembali</Link>
+          <Link href="/admin/dashboard" class="w-full rounded-full border border-slate-200 bg-white px-5 py-2.5 text-center text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 sm:w-auto">Kembali</Link>
         </div>
       </form>
     </div>

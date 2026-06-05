@@ -50,9 +50,9 @@ function highlightedName(name, keyword) {
 </script>
 
 <template>
-  <div class="mx-auto mt-8 max-w-5xl rounded-[2.5rem] border border-slate-200 bg-white/95 px-5 py-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur">
+  <div class="mx-auto mt-8 max-w-5xl rounded-[1.75rem] border border-slate-200 bg-white/95 px-4 py-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur sm:rounded-[2.5rem] sm:px-5 sm:py-5">
     <label for="search" class="sr-only">Cari daerah</label>
-    <div class="flex items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-5 py-3.5 transition focus-within:border-brand-primary focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(59,130,246,0.12)]">
+    <div class="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 transition focus-within:border-brand-primary focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(59,130,246,0.12)] sm:gap-3 sm:rounded-full sm:px-5">
       <span class="text-xl text-slate-400">⌕</span>
       <input
         ref="searchInput"
@@ -60,14 +60,14 @@ function highlightedName(name, keyword) {
         :value="searchQuery"
         type="search"
         placeholder="Cari provinsi atau wilayah..."
-        class="w-full appearance-none border-0 bg-transparent text-base text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:outline-none focus:ring-0 md:text-lg"
+        class="min-w-0 flex-1 appearance-none border-0 bg-transparent text-base text-slate-900 outline-none ring-0 placeholder:text-slate-400 focus:outline-none focus:ring-0 md:text-lg"
         @input="$emit('update:searchQuery', $event.target.value)"
         @keydown.enter.prevent="$emit('open-selected')"
       >
       <button
         v-if="searchQuery"
         type="button"
-        class="rounded-full px-3 py-1 text-sm font-semibold text-slate-500 transition hover:bg-slate-200 hover:text-slate-900"
+        class="shrink-0 rounded-full px-3 py-1 text-sm font-semibold text-slate-500 transition hover:bg-slate-200 hover:text-slate-900"
         @click="$emit('update:searchQuery', ''); focusSearch()"
       >
         Hapus
@@ -84,7 +84,7 @@ function highlightedName(name, keyword) {
           v-for="region in suggestions"
           :key="region.slug"
           :href="region.url || `/wilayah/${region.slug}`"
-          class="cursor-pointer rounded-2xl border border-slate-200 px-5 py-4 text-base font-medium text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-brand-primary hover:bg-slate-50 hover:text-brand-primary"
+          class="cursor-pointer rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-brand-primary hover:bg-slate-50 hover:text-brand-primary sm:px-5 sm:py-4 sm:text-base"
         >
           <span>
             <template v-for="part in highlightedName(region.name, debouncedSearchQuery)" :key="`${region.slug}-${part.text}-${part.matches}`">

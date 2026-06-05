@@ -153,7 +153,7 @@ function priceRowLabel(region, price) {
       </div>
     </Transition>
 
-    <div v-if="!isFiltering && visibleRegionalPrices.length > 0" class="mt-8 rounded-[1.5rem] border border-slate-200 bg-white px-5 py-4 shadow-sm">
+    <div v-if="!isFiltering && visibleRegionalPrices.length > 0" class="mt-8 rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-5">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
           <p class="text-sm text-slate-600">
@@ -162,10 +162,10 @@ function priceRowLabel(region, price) {
           </p>
           <label class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
             Per halaman
-            <span class="relative inline-flex">
+            <span class="relative inline-flex w-full sm:w-auto">
               <select
                 :value="perPage"
-                class="min-w-[4.5rem] appearance-none rounded-full border border-slate-200 bg-white bg-none py-1.5 pl-3 pr-9 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:border-slate-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15"
+                class="w-full min-w-[4.5rem] appearance-none rounded-full border border-slate-200 bg-white bg-none py-1.5 pl-3 pr-9 text-sm font-semibold text-slate-700 shadow-sm outline-none transition-colors hover:border-slate-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15 sm:w-auto"
                 @change="$emit('update:per-page', $event.target.value)"
               >
                 <option value="6">6</option>
@@ -177,19 +177,21 @@ function priceRowLabel(region, price) {
           </label>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2 lg:justify-end">
+        <div class="flex items-center gap-1 overflow-x-auto pb-1 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-2 sm:flex-wrap sm:justify-end">
           <button
             type="button"
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
+            class="shrink-0 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
             :disabled="currentPage <= 1 || isFiltering"
+            aria-label="Halaman sebelumnya"
             @click="$emit('go-to-page', currentPage - 1)"
           >
-            Sebelumnya
+            <span class="text-base leading-none sm:hidden" aria-hidden="true">←</span>
+            <span class="hidden sm:inline">Sebelumnya</span>
           </button>
           <button
             v-if="showFirstGap"
             type="button"
-            class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary"
+            class="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary"
             @click="$emit('go-to-page', 1)"
           >
             1
@@ -199,7 +201,7 @@ function priceRowLabel(region, price) {
             v-for="page in pageNumbers"
             :key="page"
             type="button"
-            class="h-10 min-w-10 rounded-full px-3 text-sm font-semibold transition-colors duration-200"
+            class="h-10 min-w-10 shrink-0 rounded-full px-3 text-sm font-semibold transition-colors duration-200"
             :class="page === currentPage ? 'bg-gradient-to-r from-slate-950 to-slate-800 text-white shadow-lg shadow-slate-950/20 ring-1 ring-slate-900/10' : 'border border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary'"
             :aria-current="page === currentPage ? 'page' : null"
             @click="$emit('go-to-page', page)"
@@ -210,18 +212,20 @@ function priceRowLabel(region, price) {
           <button
             v-if="showLastGap"
             type="button"
-            class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary"
+            class="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary"
             @click="$emit('go-to-page', totalPages)"
           >
             {{ totalPages }}
           </button>
           <button
             type="button"
-            class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
+            class="shrink-0 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
             :disabled="currentPage >= totalPages || isFiltering"
+            aria-label="Halaman berikutnya"
             @click="$emit('go-to-page', currentPage + 1)"
           >
-            Berikutnya
+            <span class="text-base leading-none sm:hidden" aria-hidden="true">→</span>
+            <span class="hidden sm:inline">Berikutnya</span>
           </button>
         </div>
       </div>

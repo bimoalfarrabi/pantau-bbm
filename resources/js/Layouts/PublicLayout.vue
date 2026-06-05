@@ -52,11 +52,11 @@ defineProps({
   </Head>
 
   <header class="border-b border-slate-200 bg-slate-50/95 backdrop-blur">
-    <nav class="mx-auto flex max-w-[1280px] items-center justify-between px-5 py-4">
+    <nav class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-3 px-5 py-4 sm:flex-nowrap">
       <Link href="/" class="shrink-0">
         <BrandMark :label="publicShell.brand || 'PantauBBM'" />
       </Link>
-      <div class="flex items-center gap-6 text-sm font-semibold text-slate-600">
+      <div class="flex w-full items-center justify-end gap-3 text-sm font-semibold text-slate-600 sm:w-auto sm:gap-6">
         <Link :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">About</Link>
       </div>
     </nav>

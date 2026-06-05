@@ -52,7 +52,7 @@ const submit = () => {
         <InputError class="mt-2" :message="form.errors.password" />
       </div>
 
-      <div class="mt-4 flex items-center justify-between gap-4">
+      <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <label class="flex items-center">
           <Checkbox name="remember" v-model:checked="form.remember" />
           <span class="ms-2 text-sm text-slate-600">Ingat saya</span>
@@ -63,7 +63,7 @@ const submit = () => {
         </Link>
       </div>
 
-      <div class="mt-6 flex items-center justify-end">
+      <div class="mt-6 flex justify-end">
         <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
           Masuk
         </PrimaryButton>

@@ -35,8 +35,8 @@ function applyStatus(status) {
     </template>
 
     <div class="mx-auto max-w-[1280px] px-5 py-10">
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div class="flex flex-wrap gap-2">
+      <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <div class="flex flex-wrap gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             v-for="status in statusOptions"
             :key="status"
@@ -51,7 +51,7 @@ function applyStatus(status) {
 
         <div v-if="logs.data.length" class="mt-6 space-y-4">
           <article v-for="log in logs.data" :key="log.id" class="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div class="space-y-2">
                 <div class="flex items-center gap-3">
                   <span class="rounded-full px-3 py-1 text-xs font-semibold ring-1" :class="statusClass(log.status)">{{ log.status }}</span>
@@ -59,7 +59,7 @@ function applyStatus(status) {
                 </div>
                 <p class="text-sm text-slate-600">{{ log.message || '-' }}</p>
               </div>
-              <div class="text-right text-xs text-slate-500">
+              <div class="text-xs text-slate-500 sm:text-right">
                 <div>Mulai: {{ log.startedAt }}</div>
                 <div>Selesai: {{ log.finishedAt || '-' }}</div>
               </div>
@@ -70,7 +70,7 @@ function applyStatus(status) {
           Log kosong untuk filter ini.
         </div>
 
-        <div v-if="logs.links?.length > 3" class="mt-6 flex flex-wrap gap-2">
+        <div v-if="logs.links?.length > 3" class="mt-6 flex flex-wrap gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Link
             v-for="link in logs.links"
             :key="link.label"

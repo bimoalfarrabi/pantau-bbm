@@ -251,12 +251,12 @@ defineProps({
   </main>
 
   <footer id="tentang-data" class="border-t border-slate-200 bg-slate-50">
-    <div class="mx-auto flex max-w-[1280px] flex-col gap-6 px-5 py-12 text-sm text-slate-700 md:flex-row md:items-center md:justify-between">
-      <div class="flex flex-wrap items-center gap-5">
+    <div class="mx-auto flex max-w-[1280px] flex-col items-center gap-6 px-5 py-12 text-center text-sm text-slate-700 md:flex-row md:items-center md:justify-between md:text-left">
+      <div class="flex flex-wrap items-center justify-center gap-5 md:justify-start">
         <BrandMark :label="publicShell.brand || 'PantauBBM'" />
         <p>{{ publicShell.copyright || '© 2026 PantauBBM' }}</p>
       </div>
-      <div class="flex flex-wrap gap-3 text-sm font-semibold">
+      <div class="flex flex-wrap justify-center gap-3 text-sm font-semibold md:justify-start">
         <Link :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">About</Link>
         <Link :href="publicShell.links?.data_source || '/about#data-source'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Data Source</Link>
         <a :href="`mailto:${publicShell.contact_email || 'hello@pantaubbm.local'}`" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Contact</a>

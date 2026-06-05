@@ -23,14 +23,26 @@ function loadingBar() {
     return element;
 }
 
-router.on('start', () => {
+router.on('start', (event) => {
+    const isPartialReload = (event.detail.visit.only || []).length > 0;
+
+    if (isPartialReload) {
+        return;
+    }
+
     clearTimeout(loadingFinishTimer);
     loadingStartedAt = performance.now();
     loadingBar().classList.add('is-loading');
     window.dispatchEvent(new CustomEvent('pantau:loading-start'));
 });
 
-router.on('finish', () => {
+router.on('finish', (event) => {
+    const isPartialReload = (event.detail.visit.only || []).length > 0;
+
+    if (isPartialReload) {
+        return;
+    }
+
     const elapsedMs = performance.now() - loadingStartedAt;
     const remainingMs = Math.max(420 - elapsedMs, 0);
 

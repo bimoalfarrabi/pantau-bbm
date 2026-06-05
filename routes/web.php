@@ -12,6 +12,7 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\RegionCountController;
 use App\Models\Region;
 use App\Models\SyncLog;
+use App\Services\Settings\SettingRepository;
 use Illuminate\Foundation\Application;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Arr;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', HomeController::class)->name('home');
-Route::get('/about', function () {
+Route::get('/about', function (SettingRepository $settings) {
     $counts = Cache::store('file')->remember('about.page.counts.v2', now()->addMinutes(30), function (): array {
         try {
             return [
@@ -41,6 +42,14 @@ Route::get('/about', function () {
     return Inertia::render('About', [
         'provinceCount' => (int) Arr::get($counts, 'regions', 0),
         'latestSyncAt' => $latestSyncAt ? Carbon::parse($latestSyncAt)->timezone('Asia/Jakarta')->toDateTimeString() : null,
+        'aboutContent' => [
+            'missionTitle' => $settings->get('about.mission.title', 'The Mission'),
+            'missionBody' => $settings->get('about.mission.body', 'PantauBBM dibangun dengan fokus tunggal: bikin pemantauan harga BBM di Indonesia terasa jelas, cepat, dan mudah dipakai. Di tengah perubahan harga yang bisa memengaruhi logistik, mobilitas, dan biaya harian, data yang rapi jadi kebutuhan utama.'),
+            'creatorName' => $settings->get('about.creator.name', 'Pantau Dev Team'),
+            'creatorSubtitle' => $settings->get('about.creator.subtitle', 'Systems Engineering'),
+            'creatorDescription' => $settings->get('about.creator.description', 'Tim kecil yang fokus bangun alat data publik yang cepat, sederhana, dan enak dipakai. Kami percaya utility app tetap bisa terasa rapi, ringan, dan punya detail visual yang matang.'),
+            'creatorPhotoUrl' => $settings->get('about.creator.photo_url', ''),
+        ],
         'seo' => [
             'title' => 'About - PantauBBM',
             'description' => 'Tentang PantauBBM, sumber data, dan tujuan platform.',

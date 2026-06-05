@@ -24,6 +24,12 @@ class SettingsController extends Controller
                 'FUEL_SYNC_LOCK_STORE' => $settings->get('fuel.sync.lock_store', config('fuel.sync.lock_store')),
                 'FUEL_SYNC_LOCK_SECONDS' => $settings->get('fuel.sync.lock_seconds', config('fuel.sync.lock_seconds')),
                 'FUEL_SYNC_CACHE_STORE' => $settings->get('fuel.sync.cache_store', config('fuel.sync.cache_store')),
+                'ABOUT_MISSION_TITLE' => $settings->get('about.mission.title', 'The Mission'),
+                'ABOUT_MISSION_BODY' => $settings->get('about.mission.body', 'PantauBBM dibangun dengan fokus tunggal: bikin pemantauan harga BBM di Indonesia terasa jelas, cepat, dan mudah dipakai. Di tengah perubahan harga yang bisa memengaruhi logistik, mobilitas, dan biaya harian, data yang rapi jadi kebutuhan utama.'),
+                'ABOUT_CREATOR_NAME' => $settings->get('about.creator.name', 'Pantau Dev Team'),
+                'ABOUT_CREATOR_SUBTITLE' => $settings->get('about.creator.subtitle', 'Systems Engineering'),
+                'ABOUT_CREATOR_DESCRIPTION' => $settings->get('about.creator.description', 'Tim kecil yang fokus bangun alat data publik yang cepat, sederhana, dan enak dipakai. Kami percaya utility app tetap bisa terasa rapi, ringan, dan punya detail visual yang matang.'),
+                'ABOUT_CREATOR_PHOTO_URL' => $settings->get('about.creator.photo_url', ''),
             ],
         ]);
     }
@@ -40,6 +46,12 @@ class SettingsController extends Controller
             'FUEL_SYNC_LOCK_STORE' => ['required', 'string', 'max:255'],
             'FUEL_SYNC_LOCK_SECONDS' => ['required', 'integer', 'min:1'],
             'FUEL_SYNC_CACHE_STORE' => ['required', 'string', 'max:255'],
+            'ABOUT_MISSION_TITLE' => ['required', 'string', 'max:255'],
+            'ABOUT_MISSION_BODY' => ['required', 'string'],
+            'ABOUT_CREATOR_NAME' => ['required', 'string', 'max:255'],
+            'ABOUT_CREATOR_SUBTITLE' => ['required', 'string', 'max:255'],
+            'ABOUT_CREATOR_DESCRIPTION' => ['required', 'string'],
+            'ABOUT_CREATOR_PHOTO_URL' => ['nullable', 'url'],
         ]);
 
         $settingKeys = [
@@ -52,6 +64,12 @@ class SettingsController extends Controller
             'FUEL_SYNC_LOCK_STORE' => 'fuel.sync.lock_store',
             'FUEL_SYNC_LOCK_SECONDS' => 'fuel.sync.lock_seconds',
             'FUEL_SYNC_CACHE_STORE' => 'fuel.sync.cache_store',
+            'ABOUT_MISSION_TITLE' => 'about.mission.title',
+            'ABOUT_MISSION_BODY' => 'about.mission.body',
+            'ABOUT_CREATOR_NAME' => 'about.creator.name',
+            'ABOUT_CREATOR_SUBTITLE' => 'about.creator.subtitle',
+            'ABOUT_CREATOR_DESCRIPTION' => 'about.creator.description',
+            'ABOUT_CREATOR_PHOTO_URL' => 'about.creator.photo_url',
         ];
 
         foreach ($settingKeys as $inputKey => $settingKey) {

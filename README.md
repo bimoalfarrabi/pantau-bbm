@@ -49,6 +49,8 @@ PantauBBM adalah aplikasi web untuk memantau harga BBM Indonesia per wilayah. Ap
 
 Data harga BBM diambil dari **Bensin API**.
 
+Source code API: [nasgunawann/bensin-api](https://github.com/nasgunawann/bensin-api)
+
 Konfigurasi utama:
 
 ```env

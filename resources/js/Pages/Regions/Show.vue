@@ -1,6 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
 import PublicLayout from '../../Layouts/PublicLayout.vue'
+import SectionShell from '../../Components/SectionShell.vue'
+import UiCard from '../../Components/UiCard.vue'
+import SectionHeader from '../../Components/SectionHeader.vue'
 
 const props = defineProps({
   region: Object,
@@ -106,8 +109,7 @@ function barHeight(price) {
 
 <template>
   <PublicLayout :seo="seo">
-    <section class="bg-slate-50">
-      <div class="mx-auto max-w-[1280px] px-5 py-12 md:py-16">
+    <SectionShell>
         <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
           <a :href="route('home')" class="hover:text-slate-950">Beranda</a>
           <span>›</span>
@@ -117,17 +119,13 @@ function barHeight(price) {
         </div>
 
         <div class="mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h1 class="text-5xl font-bold tracking-tight text-slate-950 md:text-7xl">{{ regionName }}</h1>
-            <p class="mt-4 flex items-center gap-2 text-lg text-slate-600">Pembaruan terakhir: {{ formatDate(lastSyncedAt) }} WIB</p>
-          </div>
+          <SectionHeader :title="regionName" size="display" :description="`Pembaruan terakhir: ${formatDate(lastSyncedAt)} WIB`" />
           <div class="inline-flex w-fit items-center gap-3 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-sm">
             <span class="h-3 w-3 rounded-full bg-emerald-500"></span>
             {{ prices.length > 0 ? 'Data tersedia' : 'Data belum tersedia' }}
           </div>
         </div>
-      </div>
-    </section>
+    </SectionShell>
 
     <section class="mx-auto max-w-[1280px] px-5 py-2 md:pt-2 md:pb-4">
       <div v-if="!region || prices.length === 0" class="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
@@ -136,7 +134,7 @@ function barHeight(price) {
       </div>
       <template v-else>
         <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
-          <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <UiCard>
             <div class="mb-8 flex items-center gap-3">
               <h2 class="text-2xl font-bold text-slate-950">Harga Saat Ini</h2>
             </div>
@@ -157,10 +155,10 @@ function barHeight(price) {
                 </div>
               </div>
             </div>
-          </article>
+          </UiCard>
 
           <div class="space-y-6">
-            <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <UiCard>
               <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h2 class="text-2xl font-bold text-slate-950">Tren Harga</h2>
@@ -180,9 +178,9 @@ function barHeight(price) {
                   <p class="text-xs font-semibold text-slate-500">{{ item.label }}</p>
                 </div>
               </div>
-            </article>
+            </UiCard>
 
-            <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <UiCard>
               <h2 class="text-2xl font-bold text-slate-950">Perubahan Terakhir {{ selectedProduct?.name || 'Produk' }}</h2>
               <div v-if="selectedEntries.length === 0" class="mt-6 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada perubahan harga untuk produk ini.</div>
               <div v-else class="mt-6 grid gap-4 md:grid-cols-2">
@@ -192,21 +190,23 @@ function barHeight(price) {
                   <p class="mt-2 text-xs font-semibold" :class="deltaClass(entry)">{{ deltaLabel(entry) }}</p>
                 </div>
               </div>
-            </article>
+            </UiCard>
           </div>
         </div>
 
-        <article class="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 class="text-2xl font-bold text-slate-950">Histori Lengkap</h2>
-          <div v-if="latestChanges.length === 0" class="mt-6 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada data histori.</div>
-          <div v-else class="mt-6 grid gap-4 md:grid-cols-2">
-            <div v-for="entry in latestChanges" :key="`${entry.productId}-${entry.changedAt}`" class="rounded-2xl border border-slate-200 p-4">
-              <p class="font-semibold text-slate-950">{{ entry.productName }}</p>
-              <p class="mt-2 text-sm text-slate-600">{{ formatPrice(entry.oldPrice) }} → {{ formatPrice(entry.newPrice) }}</p>
-              <p class="mt-2 text-xs font-semibold" :class="deltaClass(entry)">{{ deltaLabel(entry) }}</p>
+        <div class="mt-6">
+          <UiCard>
+            <h2 class="text-2xl font-bold text-slate-950">Histori Lengkap</h2>
+            <div v-if="latestChanges.length === 0" class="mt-6 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada data histori.</div>
+            <div v-else class="mt-6 grid gap-4 md:grid-cols-2">
+              <div v-for="entry in latestChanges" :key="`${entry.productId}-${entry.changedAt}`" class="rounded-2xl border border-slate-200 p-4">
+                <p class="font-semibold text-slate-950">{{ entry.productName }}</p>
+                <p class="mt-2 text-sm text-slate-600">{{ formatPrice(entry.oldPrice) }} → {{ formatPrice(entry.newPrice) }}</p>
+                <p class="mt-2 text-xs font-semibold" :class="deltaClass(entry)">{{ deltaLabel(entry) }}</p>
+              </div>
             </div>
-          </div>
-        </article>
+          </UiCard>
+        </div>
       </template>
     </section>
   </PublicLayout>

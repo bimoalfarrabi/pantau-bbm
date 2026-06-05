@@ -2,6 +2,8 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
 import PublicLayout from '../Layouts/PublicLayout.vue'
+import SectionShell from '../Components/SectionShell.vue'
+import UiCard from '../Components/UiCard.vue'
 import SearchRegion from '../Components/Home/SearchRegion.vue'
 import RegionalFilterHeader from '../Components/Home/RegionalFilterHeader.vue'
 import RegionalPriceGrid from '../Components/Home/RegionalPriceGrid.vue'
@@ -162,8 +164,8 @@ function cleanRegionalQuery(query) {
 
 <template>
   <PublicLayout :seo="seo">
-    <section class="border-b border-slate-200 bg-slate-50">
-      <div class="mx-auto max-w-[1280px] px-5 py-12 md:py-14 text-center">
+    <SectionShell>
+      <div class="text-center">
         <div class="mx-auto max-w-3xl">
           <h1 class="text-4xl font-bold tracking-tight text-slate-950 md:text-6xl">Pantau harga BBM terkini</h1>
           <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Cari provinsi, bandingkan daftar regional, dan buka detail wilayah dengan alur yang cepat.</p>
@@ -178,10 +180,10 @@ function cleanRegionalQuery(query) {
           @open-selected="openSelectedSuggestion"
         />
       </div>
-    </section>
+    </SectionShell>
 
-    <section id="daftar-regional" class="border-b border-slate-200 bg-slate-50">
-      <div class="mx-auto max-w-[1280px] px-5 py-12 md:py-14">
+    <SectionShell>
+      <div id="daftar-regional">
         <RegionalFilterHeader
           :active-product-slug="activeProductSlug"
           :products="products"
@@ -207,7 +209,6 @@ function cleanRegionalQuery(query) {
           @update:per-page="setPerPage"
         />
       </div>
-    </section>
-
+    </SectionShell>
   </PublicLayout>
 </template>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
 defineProps({
   searchQuery: {
@@ -79,7 +80,7 @@ function highlightedName(name, keyword) {
         <span v-if="suggestions.length">{{ suggestions.length }} hasil</span>
       </div>
       <div class="grid gap-3 sm:grid-cols-2">
-        <a
+        <Link
           v-for="region in suggestions"
           :key="region.slug"
           :href="region.url || `/wilayah/${region.slug}`"
@@ -91,7 +92,7 @@ function highlightedName(name, keyword) {
               <span v-else>{{ part.text }}</span>
             </template>
           </span>
-        </a>
+        </Link>
         <p v-if="isSearching" class="px-4 py-3 text-sm text-slate-500">Mencari daerah...</p>
         <p v-if="debouncedSearchQuery && !isSearching && suggestions.length === 0" class="px-4 py-3 text-sm text-slate-500">Daerah tidak ditemukan.</p>
       </div>

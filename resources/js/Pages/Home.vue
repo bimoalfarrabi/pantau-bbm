@@ -30,6 +30,8 @@ let filterTimer = null
 let debounceTimer = null
 let abortController = null
 let searchRequestId = 0
+let filterFinishedTimer = null
+const minimumFilteringMs = 350
 
 watch(searchQuery, (value) => {
   clearTimeout(debounceTimer)
@@ -94,7 +96,7 @@ async function fetchSuggestions(value) {
 
 function openSelectedSuggestion() {
   const selectedSuggestion = suggestions.value[0]
-  if (selectedSuggestion) window.location.href = selectedSuggestion.url || `/wilayah/${selectedSuggestion.slug}`
+  if (selectedSuggestion) router.visit(selectedSuggestion.url || `/wilayah/${selectedSuggestion.slug}`)
 }
 
 function resetFilter() {
@@ -118,6 +120,8 @@ function setSort(sort) {
 }
 
 function updateRegionalList(overrides = {}) {
+  clearTimeout(filterFinishedTimer)
+
   const query = {
     search: overrides.search ?? searchQuery.value,
     product: overrides.product ?? activeProductSlug.value,
@@ -129,6 +133,7 @@ function updateRegionalList(overrides = {}) {
   const requestQuery = cleanRegionalQuery(query)
 
   isFiltering.value = true
+  const filteringStartedAt = performance.now()
 
   router.get('/', requestQuery, {
     preserveState: true,
@@ -144,7 +149,12 @@ function updateRegionalList(overrides = {}) {
       perPage.value = query.perPage
     },
     onFinish: () => {
-      isFiltering.value = false
+      const elapsedMs = performance.now() - filteringStartedAt
+      const remainingMs = Math.max(minimumFilteringMs - elapsedMs, 0)
+
+      filterFinishedTimer = setTimeout(() => {
+        isFiltering.value = false
+      }, remainingMs)
     },
   })
 }
@@ -185,6 +195,7 @@ function cleanRegionalQuery(query) {
     <SectionShell>
       <div id="daftar-regional">
         <RegionalFilterHeader
+          :is-loading="isFiltering"
           :active-product-slug="activeProductSlug"
           :products="products"
           :sort-mode="sortMode"

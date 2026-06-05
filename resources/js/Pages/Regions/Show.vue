@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import PublicLayout from '../../Layouts/PublicLayout.vue'
 import SectionShell from '../../Components/SectionShell.vue'
 import UiCard from '../../Components/UiCard.vue'
@@ -111,9 +112,9 @@ function barHeight(price) {
   <PublicLayout :seo="seo">
     <SectionShell>
         <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
-          <a :href="route('home')" class="hover:text-slate-950">Beranda</a>
+          <Link :href="route('home')" class="hover:text-slate-950">Beranda</Link>
           <span>›</span>
-          <a :href="`${route('home')}#daftar-regional`" class="hover:text-slate-950">Regions</a>
+          <Link :href="`${route('home')}#daftar-regional`" class="hover:text-slate-950">Regions</Link>
           <span>›</span>
           <span class="text-slate-950">{{ regionName }}</span>
         </div>
@@ -128,11 +129,20 @@ function barHeight(price) {
     </SectionShell>
 
     <section class="mx-auto max-w-[1280px] px-5 py-2 md:pt-2 md:pb-4">
-      <div v-if="!region || prices.length === 0" class="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-        <p class="text-xl font-semibold text-slate-950">Data wilayah ini belum tersedia.</p>
-        <p class="mt-2 text-slate-600">Jalankan sinkronisasi untuk memuat data terbaru.</p>
+      <div v-if="!region || prices.length === 0" class="space-y-6">
+        <SkeletonCard>
+          <div class="space-y-4">
+            <SkeletonLine class="h-8 w-2/3" />
+            <SkeletonLine class="h-5 w-full" />
+            <SkeletonLine class="h-5 w-5/6" />
+          </div>
+        </SkeletonCard>
+        <div class="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+          <p class="text-xl font-semibold text-slate-950">Data wilayah ini belum tersedia.</p>
+          <p class="mt-2 text-slate-600">Jalankan sinkronisasi untuk memuat data terbaru.</p>
+        </div>
       </div>
-      <template v-else>
+      <div v-else>
         <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
           <UiCard>
             <div class="mb-8 flex items-center gap-3">
@@ -207,7 +217,7 @@ function barHeight(price) {
             </div>
           </UiCard>
         </div>
-      </template>
+      </div>
     </section>
   </PublicLayout>
 </template>

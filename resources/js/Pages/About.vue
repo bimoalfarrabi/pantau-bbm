@@ -13,6 +13,22 @@ const props = defineProps({
 <template>
   <PublicLayout :seo="seo">
     <SectionShell>
+      <div v-if="provinceCount === undefined || latestSyncAt === undefined" class="mb-10 grid gap-6 lg:grid-cols-2">
+        <SkeletonCard>
+          <div class="space-y-4">
+            <SkeletonLine class="h-10 w-1/2" />
+            <SkeletonLine class="h-5 w-full" />
+            <SkeletonLine class="h-5 w-5/6" />
+          </div>
+        </SkeletonCard>
+        <SkeletonCard>
+          <div class="space-y-4">
+            <SkeletonLine class="h-10 w-1/3" />
+            <SkeletonLine class="h-5 w-full" />
+            <SkeletonLine class="h-5 w-2/3" />
+          </div>
+        </SkeletonCard>
+      </div>
       <div class="mb-14 border-b border-slate-200 pb-10">
         <h1 class="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">About</h1>
         <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl">Understanding the platform, the people behind it, and the data that powers it.</p>

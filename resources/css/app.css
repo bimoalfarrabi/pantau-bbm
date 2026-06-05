@@ -1,3 +1,61 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#nprogress .bar {
+    height: 5px !important;
+    box-shadow: 0 0 22px rgba(15, 23, 42, 0.22);
+}
+
+#pantau-loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    height: 5px;
+    width: 100%;
+    pointer-events: none;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: #0f172a;
+    box-shadow: 0 0 22px rgba(15, 23, 42, 0.24);
+    opacity: 0;
+    transition: transform 420ms ease, opacity 160ms ease;
+}
+
+#pantau-loading-bar.is-loading {
+    transform: scaleX(0.82);
+    opacity: 1;
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+.pantau-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+
+.pantau-skeleton::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    animation: pantau-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes pantau-skeleton-shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}

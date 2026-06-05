@@ -1,12 +1,44 @@
 import '../css/app.css';
 import './bootstrap';
 
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const loadingBarId = 'pantau-loading-bar';
+let loadingStartedAt = 0;
+let loadingFinishTimer = null;
+
+function loadingBar() {
+    let element = document.getElementById(loadingBarId);
+
+    if (!element) {
+        element = document.createElement('div');
+        element.id = loadingBarId;
+        document.body.appendChild(element);
+    }
+
+    return element;
+}
+
+router.on('start', () => {
+    clearTimeout(loadingFinishTimer);
+    loadingStartedAt = performance.now();
+    loadingBar().classList.add('is-loading');
+    window.dispatchEvent(new CustomEvent('pantau:loading-start'));
+});
+
+router.on('finish', () => {
+    const elapsedMs = performance.now() - loadingStartedAt;
+    const remainingMs = Math.max(420 - elapsedMs, 0);
+
+    loadingFinishTimer = setTimeout(() => {
+        loadingBar().classList.remove('is-loading');
+        window.dispatchEvent(new CustomEvent('pantau:loading-finish'));
+    }, remainingMs);
+});
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -22,6 +54,9 @@ createInertiaApp({
             .mount(el);
     },
     progress: {
-        color: '#4B5563',
+        color: '#0F172A',
+        delay: 120,
+        includeCSS: true,
+        showSpinner: false,
     },
 });

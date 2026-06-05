@@ -1,5 +1,7 @@
 <script setup>
 import { computed } from 'vue'
+import { Link } from '@inertiajs/vue3'
+import PublicSkeletonGrid from '../PublicSkeletonGrid.vue'
 
 const props = defineProps({
   isFiltering: {
@@ -94,31 +96,19 @@ function priceRowLabel(region, price) {
 <template>
   <div>
     <Transition name="fade-slide" mode="out-in">
-      <div v-if="isFiltering" key="skeleton" class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        <article v-for="index in 6" :key="index" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="mb-6 flex items-center justify-between gap-3">
-            <div class="h-7 w-2/3 animate-pulse rounded-full bg-slate-200"></div>
-            <div class="h-7 w-16 animate-pulse rounded-full bg-slate-100"></div>
-          </div>
-          <div class="space-y-4">
-            <div class="h-5 animate-pulse rounded-full bg-slate-100"></div>
-            <div class="h-5 animate-pulse rounded-full bg-slate-100"></div>
-            <div class="h-5 animate-pulse rounded-full bg-slate-100"></div>
-            <div class="h-5 animate-pulse rounded-full bg-slate-100"></div>
-          </div>
-          <div class="mt-6 h-11 rounded-full bg-slate-100/80"></div>
-        </article>
+      <div v-if="isFiltering" key="skeleton" class="mt-8">
+        <PublicSkeletonGrid :cards="6" />
       </div>
 
       <div v-else-if="visibleRegionalPrices.length === 0" key="empty" class="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 text-center shadow-sm md:p-10">
         <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-sm font-bold text-slate-400">0</div>
         <p class="text-lg font-semibold text-slate-950">Belum ada data untuk {{ activeProductLabel }}.</p>
         <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-600">Coba pilih filter lain atau jalankan sinkronisasi data terbaru untuk memperbarui daftar harga.</p>
-        <button class="mt-5 rounded-full bg-slate-950 px-5 py-2 text-sm font-semibold text-white" @click="$emit('reset-filter')">Tampilkan semua</button>
+      <button class="mt-5 rounded-full bg-slate-950 px-5 py-2 text-sm font-semibold text-white" @click="$emit('reset-filter')">Tampilkan semua</button>
       </div>
 
       <div v-else key="grid" class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        <a
+        <Link
           v-for="region in visibleRegionalPrices"
           :key="region.slug"
           :href="`/wilayah/${region.slug}`"
@@ -159,7 +149,7 @@ function priceRowLabel(region, price) {
             <span>Lihat detail wilayah</span>
             <span aria-hidden="true">→</span>
           </div>
-        </a>
+        </Link>
       </div>
     </Transition>
 
@@ -191,7 +181,7 @@ function priceRowLabel(region, price) {
           <button
             type="button"
             class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
-            :disabled="currentPage <= 1"
+            :disabled="currentPage <= 1 || isFiltering"
             @click="$emit('go-to-page', currentPage - 1)"
           >
             Sebelumnya
@@ -228,7 +218,7 @@ function priceRowLabel(region, price) {
           <button
             type="button"
             class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
-            :disabled="currentPage >= totalPages"
+            :disabled="currentPage >= totalPages || isFiltering"
             @click="$emit('go-to-page', currentPage + 1)"
           >
             Berikutnya

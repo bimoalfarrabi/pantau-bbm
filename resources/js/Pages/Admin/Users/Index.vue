@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import { reactive } from 'vue'
 import AuthenticatedLayout from '../../../Layouts/AuthenticatedLayout.vue'
 
@@ -11,6 +11,8 @@ const form = reactive({
   status: props.filters.status || 'active',
 })
 
+const actionForm = useForm({})
+
 function submitFilters() {
   router.get(route('admin.users.index'), {
     search: form.search,
@@ -20,11 +22,11 @@ function submitFilters() {
 }
 
 function toggleAdmin(user) {
-  router.patch(route('admin.users.toggle-admin', user.id), {}, { preserveScroll: true })
+  actionForm.patch(route('admin.users.toggle-admin', user.id), { preserveScroll: true })
 }
 
 function restoreUser(user) {
-  router.post(route('admin.users.restore', user.id), {}, { preserveScroll: true })
+  actionForm.post(route('admin.users.restore', user.id), { preserveScroll: true })
 }
 </script>
 
@@ -97,10 +99,10 @@ function restoreUser(user) {
                 <td class="py-4 pr-4">
                   <div class="flex flex-wrap gap-2">
                     <Link v-if="!user.deletedAt" :href="`/admin/users/${user.id}/edit`" class="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">Edit</Link>
-                    <button type="button" class="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40" :disabled="user.isMe || user.deletedAt" @click="toggleAdmin(user)">
+                    <button type="button" class="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40" :disabled="user.isMe || user.deletedAt || actionForm.processing" @click="toggleAdmin(user)">
                       {{ user.isAdmin ? 'Turunkan Admin' : 'Jadikan Admin' }}
                     </button>
-                    <button v-if="user.deletedAt" type="button" class="rounded-full border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-700" @click="restoreUser(user)">Pulihkan</button>
+                    <button v-if="user.deletedAt" type="button" class="rounded-full border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-700 disabled:cursor-not-allowed disabled:opacity-40" :disabled="actionForm.processing" @click="restoreUser(user)">Pulihkan</button>
                   </div>
                 </td>
               </tr>

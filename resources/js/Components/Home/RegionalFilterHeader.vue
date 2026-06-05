@@ -4,6 +4,10 @@ defineProps({
     type: String,
     default: 'all',
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
   products: {
     type: Array,
     default: () => [],
@@ -60,6 +64,7 @@ defineEmits([
       <span class="shrink-0 rounded-full bg-slate-100 px-4 py-2 font-semibold text-slate-500">Produk</span>
       <button
         class="shrink-0 cursor-pointer rounded-full px-5 py-2 font-semibold transition-colors duration-200"
+        :disabled="isLoading"
         :class="activeProductSlug === 'all' ? 'bg-slate-950 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-primary hover:bg-blue-50 hover:text-brand-primary'"
         :aria-pressed="activeProductSlug === 'all'"
         @click="$emit('update:activeProductSlug', 'all')"
@@ -70,6 +75,7 @@ defineEmits([
         v-for="product in products"
         :key="product.slug"
         class="shrink-0 cursor-pointer rounded-full px-5 py-2 font-semibold transition-colors duration-200"
+        :disabled="isLoading"
         :class="activeProductSlug === product.slug ? 'bg-slate-950 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-primary hover:bg-blue-50 hover:text-brand-primary'"
         :aria-pressed="activeProductSlug === product.slug"
         @click="$emit('update:activeProductSlug', product.slug)"

@@ -47,7 +47,8 @@ defineProps({
     <meta property="og:description" :content="seo?.description || 'Pantau harga BBM berdasarkan daerah di Indonesia.'" />
     <meta property="og:type" content="website" />
     <meta property="og:url" :content="seo?.canonical || ''" />
-    <meta property="og:image" :content="'/favicon.ico'" />
+    <meta property="og:image" :content="'/pantaubbm.svg'" />
+    <link rel="icon" type="image/svg+xml" href="/pantaubbm.svg" />
   </Head>
 
   <header class="border-b border-slate-200 bg-slate-50/95 backdrop-blur">

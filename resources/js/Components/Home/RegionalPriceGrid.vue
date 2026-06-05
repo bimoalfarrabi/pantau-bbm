@@ -125,20 +125,20 @@ function priceRowLabel(region, price) {
             <div
               v-for="price in region.prices"
               :key="price.slug"
-              class="flex items-center justify-between gap-4 px-4 py-3"
+              class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3"
               :class="{
                 'bg-emerald-50/70': isLowestPrice(region, price.price),
                 'bg-amber-50/70': isHighestPrice(region, price.price),
               }"
             >
-              <div class="min-w-0 pr-3">
-                <span class="block text-sm font-medium leading-6 text-slate-700 md:text-[15px]">{{ price.name }}</span>
+              <div class="min-w-0">
+                <span class="block truncate text-sm font-medium leading-6 text-slate-700 md:text-[15px]" :title="price.name">{{ price.name }}</span>
                 <span v-if="priceRowLabel(region, price.price)" class="mt-1 inline-flex rounded-full px-2 py-0.5 text-[11px] font-semibold" :class="isLowestPrice(region, price.price) ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'">
                   {{ priceRowLabel(region, price.price) }}
                 </span>
               </div>
               <span
-                class="shrink-0 rounded-full px-3 py-1 text-right font-mono text-sm font-semibold tabular-nums md:text-[15px]"
+                class="inline-flex min-w-[7.5rem] shrink-0 items-center justify-center rounded-full px-3 py-1 text-center font-mono text-sm font-semibold tabular-nums md:text-[15px]"
                 :class="isUnavailable(price.price) ? 'bg-slate-100 text-slate-400' : 'bg-white text-slate-950 shadow-sm ring-1 ring-slate-200'"
               >
                 {{ formatPrice(price.price) }}

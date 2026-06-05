@@ -198,17 +198,21 @@ function barHeight(price) {
 
               <div class="divide-y divide-slate-200">
                 <div v-for="price in prices" :key="price.fuel_product_id" class="py-5 first:pt-0">
-                  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <div class="min-w-0">
-                      <span class="inline-flex rounded-md px-3 py-1 text-sm font-semibold" :class="badgeClass(ronLabels[price.product?.name?.toLowerCase()] || 'BBM')">
-                        {{ ronLabels[price.product?.name?.toLowerCase()] || 'BBM' }}
-                      </span>
-                      <h3 class="mt-3 text-lg font-bold text-slate-950 sm:text-xl">{{ price.product?.name || 'Produk' }}</h3>
-                      <p class="mt-1 text-sm text-slate-500">Harga regional {{ regionName }}</p>
+                  <div class="flex flex-col gap-4 sm:gap-3">
+                    <div class="flex items-start gap-3">
+                      <div class="min-w-0 flex-1">
+                        <span class="inline-flex rounded-md px-3 py-1 text-sm font-semibold" :class="badgeClass(ronLabels[price.product?.name?.toLowerCase()] || 'BBM')">
+                          {{ ronLabels[price.product?.name?.toLowerCase()] || 'BBM' }}
+                        </span>
+                        <h3 class="mt-3 truncate text-lg font-bold text-slate-950 sm:text-xl">{{ price.product?.name || 'Produk' }}</h3>
+                        <p class="mt-1 text-sm text-slate-500">Harga regional {{ regionName }}</p>
+                      </div>
+                      <div class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-left shadow-sm sm:text-right">
+                        <p class="text-xl font-bold text-slate-950 sm:text-2xl">{{ formatPrice(price.price) }}</p>
+                      </div>
                     </div>
-                    <div class="text-left sm:text-right">
-                      <p class="text-xl font-bold text-slate-950 sm:text-2xl">{{ formatPrice(price.price) }}</p>
-                      <p class="mt-1 text-sm font-semibold" :class="currentPriceDeltaClass(price)">{{ currentPriceDeltaLabel(price) }}</p>
+                    <div class="flex items-center justify-between gap-3 sm:justify-end">
+                      <p class="text-sm font-semibold" :class="currentPriceDeltaClass(price)">{{ currentPriceDeltaLabel(price) }}</p>
                     </div>
                   </div>
                 </div>

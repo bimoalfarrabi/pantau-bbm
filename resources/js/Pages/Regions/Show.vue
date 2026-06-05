@@ -22,15 +22,36 @@ const ronLabels = {
   'pertamina dex': 'CN 53',
 }
 
-const selectedProductId = ref(props.historyProducts?.[0]?.id || props.region?.prices?.[0]?.fuel_product_id || null)
+const selectedProductId = ref('all')
 const formatter = new Intl.NumberFormat('id-ID')
 const regionName = computed(() => props.region?.name || titleCase(props.slug.replaceAll('-', ' ')))
 const prices = computed(() => props.region?.prices || [])
 const lastSyncedAt = computed(() => prices.value.map((price) => price.last_synced_at).filter(Boolean).sort().at(-1))
-const selectedProduct = computed(() => props.historyProducts?.find((product) => String(product.id) === String(selectedProductId.value)))
-const selectedEntries = computed(() => props.historyEntries?.[selectedProductId.value] || [])
+const selectedProduct = computed(() => props.historyProducts?.find((product) => String(product.id) === String(selectedProductId.value)) || props.region?.prices?.find((price) => String(price.fuel_product_id) === String(selectedProductId.value))?.product)
+const selectedEntries = computed(() => (selectedProductId.value === 'all' ? Object.values(props.historyEntries || {}).flat() : props.historyEntries?.[selectedProductId.value] || []))
 const latestChanges = computed(() => Object.values(props.historyEntries || {}).flat().sort((a, b) => new Date(b.changedAt) - new Date(a.changedAt)).slice(0, 24))
+const latestChangeByProduct = computed(() => Object.fromEntries(
+  Object.entries(props.historyEntries || {}).map(([productId, entries]) => [
+    productId,
+    [...entries].sort((a, b) => new Date(b.changedAt) - new Date(a.changedAt))[0],
+  ]),
+))
 const trendData = computed(() => {
+  if (selectedProductId.value === 'all') {
+    return props.historyProducts
+      ?.map((product) => {
+        const entries = [...(props.historyEntries?.[product.id] || [])].sort((a, b) => new Date(b.changedAt) - new Date(a.changedAt))
+        const latestEntry = entries[0]
+        const currentPrice = prices.value.find((price) => price.fuel_product_id === product.id)
+
+        return {
+          label: product.name,
+          price: latestEntry?.newPrice || currentPrice?.price,
+        }
+      })
+      .filter((item) => item.price)
+  }
+
   const entries = [...selectedEntries.value]
     .sort((a, b) => new Date(a.changedAt) - new Date(b.changedAt))
     .map((entry) => ({
@@ -45,6 +66,8 @@ const trendData = computed(() => {
 })
 const trendSummary = computed(() => {
   if (trendData.value.length === 0) return 'Histori belum tersedia untuk produk ini.'
+
+  if (selectedProductId.value === 'all') return 'Perbandingan harga terbaru untuk semua produk di wilayah ini.'
 
   const first = Number(trendData.value[0]?.price || 0)
   const last = Number(trendData.value.at(-1)?.price || 0)
@@ -94,6 +117,28 @@ function deltaClass(entry) {
   if (delta > 0) return 'text-rose-600'
   if (delta < 0) return 'text-emerald-600'
   return 'text-slate-500'
+}
+
+function currentPriceDeltaLabel(price) {
+  const entry = latestChangeByProduct.value[price.fuel_product_id]
+
+  if (!entry) return '— Tetap'
+
+  const delta = priceDelta(entry)
+  if (delta > 0) return `↗ +Rp${formatter.format(delta)}`
+  if (delta < 0) return `↘ -Rp${formatter.format(Math.abs(delta))}`
+  return '— Tetap'
+}
+
+function currentPriceDeltaClass(price) {
+  const entry = latestChangeByProduct.value[price.fuel_product_id]
+  if (!entry) return 'text-slate-500'
+
+  return deltaClass(entry)
+}
+
+function selectedProductName() {
+  return selectedProductId.value === 'all' ? 'Semua Produk' : selectedProduct.value?.name || 'Produk'
 }
 
 function badgeClass(label) {
@@ -161,6 +206,7 @@ function barHeight(price) {
                   </div>
                   <div class="text-right">
                     <p class="text-2xl font-bold text-slate-950">{{ formatPrice(price.price) }}</p>
+                    <p class="mt-1 text-sm font-semibold" :class="currentPriceDeltaClass(price)">{{ currentPriceDeltaLabel(price) }}</p>
                   </div>
                 </div>
               </div>
@@ -174,9 +220,10 @@ function barHeight(price) {
                   <h2 class="text-2xl font-bold text-slate-950">Tren Harga</h2>
                   <p class="mt-1 text-sm text-slate-500">{{ trendSummary }}</p>
                 </div>
-                <select v-model="selectedProductId" class="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 outline-none focus:border-slate-950 focus:ring-0">
-                  <option v-for="product in historyProducts" :key="product.id" :value="product.id">{{ product.name }}</option>
-                </select>
+              <select v-model="selectedProductId" class="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-950 outline-none focus:border-slate-950 focus:ring-0">
+                <option value="all">• Semua Produk</option>
+                <option v-for="product in historyProducts" :key="product.id" :value="product.id">{{ product.name }}</option>
+              </select>
               </div>
 
               <div v-if="trendData.length === 0" class="mt-8 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Histori belum tersedia untuk produk ini.</div>
@@ -191,7 +238,11 @@ function barHeight(price) {
             </UiCard>
 
             <UiCard>
-              <h2 class="text-2xl font-bold text-slate-950">Perubahan Terakhir {{ selectedProduct?.name || 'Produk' }}</h2>
+              <h2 class="flex flex-wrap items-center gap-3 text-2xl font-bold text-slate-950">
+                <span>Perubahan Terakhir</span>
+                <span v-if="selectedProductId === 'all'" class="inline-flex rounded-full bg-slate-950 px-3 py-1 text-sm font-semibold text-white">Semua Produk</span>
+                <span v-else>{{ selectedProduct?.name || 'Produk' }}</span>
+              </h2>
               <div v-if="selectedEntries.length === 0" class="mt-6 rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada perubahan harga untuk produk ini.</div>
               <div v-else class="mt-6 grid gap-4 md:grid-cols-2">
                 <div v-for="entry in selectedEntries.slice(0, 4)" :key="entry.changedAt" class="rounded-2xl border border-slate-200 p-4">

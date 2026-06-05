@@ -31,6 +31,21 @@ class RegionController extends Controller
                 ])
                 ->values();
 
+            $currentProducts = $region
+                ? $region->fuelPrices
+                    ->sortBy(fn ($price) => $price->fuelProduct?->sort_order ?? 0)
+                    ->values()
+                    ->map(fn ($price): array => [
+                        'id' => $price->fuel_product_id,
+                        'name' => $price->fuelProduct?->name ?? 'Produk',
+                    ])
+                : collect();
+
+            $historyProducts = $historyProducts
+                ->concat($currentProducts)
+                ->unique('id')
+                ->values();
+
             $historyEntries = $historyQuery
                 ->latest('changed_at')
                 ->limit(80)

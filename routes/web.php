@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
 use App\Http\Controllers\Admin\SyncLogController as AdminSyncLogController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionAutocompleteController;
@@ -22,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', HomeController::class)->name('home');
-Route::get('/riwayat', HistoryController::class)->name('history.index');
 Route::get('/about', function () {
     $counts = Cache::store('file')->remember('about.page.counts.v2', now()->addMinutes(30), function (): array {
         try {

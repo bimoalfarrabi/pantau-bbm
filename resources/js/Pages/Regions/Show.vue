@@ -173,7 +173,8 @@ function barHeight(price) {
         </div>
     </SectionShell>
 
-    <section class="mx-auto max-w-[1280px] px-5 py-2 md:pt-2 md:pb-4">
+    <section class="bg-slate-50">
+      <div class="mx-auto max-w-[1280px] px-5 py-2 md:pt-2 md:pb-4">
       <div v-if="!region || prices.length === 0" class="space-y-6">
         <SkeletonCard>
           <div class="space-y-4">
@@ -268,6 +269,7 @@ function barHeight(price) {
             </div>
           </UiCard>
         </div>
+      </div>
       </div>
     </section>
   </PublicLayout>

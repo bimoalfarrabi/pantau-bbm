@@ -1,5 +1,6 @@
 <script setup>
 import { Head, usePage } from '@inertiajs/vue3'
+import BrandMark from '@/Components/BrandMark.vue'
 
 const page = usePage()
 const publicShell = page.props.publicShell || {}
@@ -19,14 +20,14 @@ defineProps({
     <meta property="og:url" :content="seo?.canonical || ''" />
     <meta property="og:image" :content="'/favicon.ico'" />
   </Head>
-  <header class="border-b border-slate-200 bg-slate-50">
+
+  <header class="border-b border-slate-200 bg-slate-50/95 backdrop-blur">
     <nav class="mx-auto flex max-w-[1280px] items-center justify-between px-5 py-4">
-      <a href="/" class="flex items-center gap-2 text-xl font-bold tracking-tight text-slate-950">
-        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 text-slate-600">▣</span>
-        {{ publicShell.brand || 'PantauBBM' }}
+      <a href="/" class="shrink-0">
+        <BrandMark :label="publicShell.brand || 'PantauBBM'" />
       </a>
-      <div class="flex items-center gap-6 text-sm text-slate-700">
-        <a :href="publicShell.links?.about || '/about'" class="hover:text-slate-950">About</a>
+      <div class="flex items-center gap-6 text-sm font-semibold text-slate-600">
+        <a :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">About</a>
       </div>
     </nav>
   </header>
@@ -38,13 +39,13 @@ defineProps({
   <footer id="tentang-data" class="border-t border-slate-200 bg-slate-50">
     <div class="mx-auto flex max-w-[1280px] flex-col gap-6 px-5 py-12 text-sm text-slate-700 md:flex-row md:items-center md:justify-between">
       <div class="flex flex-wrap items-center gap-5">
-        <p class="text-xl font-bold text-slate-950">{{ publicShell.brand || 'PantauBBM' }}</p>
+        <BrandMark :label="publicShell.brand || 'PantauBBM'" />
         <p>{{ publicShell.copyright || '© 2026 PantauBBM' }}</p>
       </div>
-      <div class="flex flex-wrap gap-8 text-base">
-        <a :href="publicShell.links?.about || '/about'" class="hover:text-slate-950">About</a>
-        <a :href="publicShell.links?.data_source || '/about#data-source'" class="hover:text-slate-950">Data Source</a>
-        <a :href="`mailto:${publicShell.contact_email || 'hello@pantaubbm.local'}`" class="hover:text-slate-950">Contact</a>
+      <div class="flex flex-wrap gap-3 text-sm font-semibold">
+        <a :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">About</a>
+        <a :href="publicShell.links?.data_source || '/about#data-source'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Data Source</a>
+        <a :href="`mailto:${publicShell.contact_email || 'hello@pantaubbm.local'}`" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Contact</a>
       </div>
       <div class="w-full text-xs text-slate-500 md:w-auto md:text-right">
         <p>{{ publicShell.footer_note || 'Data powered by Bensin API.' }}</p>

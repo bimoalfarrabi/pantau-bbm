@@ -34,43 +34,42 @@ const sections = [
   <Head title="Admin Settings" />
   <AuthenticatedLayout>
     <template #header>
-      <div class="flex items-end justify-between gap-4">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h2 class="text-xl font-semibold leading-tight text-gray-800">Admin Settings</h2>
-          <p class="mt-1 text-sm text-gray-600">Simpan konfigurasi runtime tanpa edit `.env` langsung.</p>
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Admin area</p>
+          <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">Settings</h1>
+          <p class="mt-3 text-sm leading-6 text-slate-600">Simpan konfigurasi runtime tanpa edit `.env` langsung.</p>
         </div>
-        <Link href="/admin/dashboard" class="rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">Kembali</Link>
+        <Link href="/admin/dashboard" class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950">Kembali</Link>
       </div>
     </template>
 
-    <div class="py-12">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div v-if="$page.props.flash.status" class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-          {{ $page.props.flash.status }}
-        </div>
-
-        <form class="space-y-6" @submit.prevent="form.put(route('admin.settings.update'))">
-          <section v-for="section in sections" :key="section.title" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900">{{ section.title }}</h3>
-              <p class="mt-1 text-sm text-gray-500">{{ section.description }}</p>
-            </div>
-            <div class="mt-6 grid gap-4 md:grid-cols-2">
-              <label v-for="field in section.fields" :key="field.key" class="block" :class="field.full ? 'md:col-span-2' : ''">
-                <span class="text-sm font-medium text-gray-700">{{ field.label }}</span>
-                <input v-model="form[field.key]" class="mt-1 w-full rounded-lg border-gray-300" :type="field.type">
-              </label>
-            </div>
-          </section>
-
-          <div class="flex items-center gap-3">
-            <button class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white" :disabled="form.processing">
-              {{ form.processing ? 'Menyimpan...' : 'Simpan' }}
-            </button>
-            <Link href="/admin/dashboard" class="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">Kembali</Link>
-          </div>
-        </form>
+    <div class="mx-auto max-w-[1280px] px-5 py-10">
+      <div v-if="$page.props.flash.status" class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        {{ $page.props.flash.status }}
       </div>
+
+      <form class="space-y-6" @submit.prevent="form.put(route('admin.settings.update'))">
+        <section v-for="section in sections" :key="section.title" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div>
+            <h3 class="text-lg font-semibold text-slate-950">{{ section.title }}</h3>
+            <p class="mt-1 text-sm text-slate-600">{{ section.description }}</p>
+          </div>
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <label v-for="field in section.fields" :key="field.key" class="block" :class="field.full ? 'md:col-span-2' : ''">
+              <span class="text-sm font-medium text-slate-700">{{ field.label }}</span>
+              <input v-model="form[field.key]" class="mt-1 w-full rounded-xl border-slate-300" :type="field.type">
+            </label>
+          </div>
+        </section>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800" :disabled="form.processing">
+            {{ form.processing ? 'Menyimpan...' : 'Simpan' }}
+          </button>
+          <Link href="/admin/dashboard" class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950">Kembali</Link>
+        </div>
+      </form>
     </div>
   </AuthenticatedLayout>
 </template>

@@ -1,59 +1,243 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PantauBBM
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)
+![Vue](https://img.shields.io/badge/Vue-3-42B883?logo=vue.js&logoColor=white)
+![Inertia](https://img.shields.io/badge/Inertia.js-2-9553E9)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?logo=tailwindcss&logoColor=white)
 
-## About Laravel
+PantauBBM adalah aplikasi web untuk memantau harga BBM Indonesia per wilayah. Aplikasi ini menampilkan harga terkini, pencarian wilayah, tren harga, histori perubahan, serta admin panel untuk sinkronisasi data dan pengelolaan konten publik.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+> PantauBBM bukan situs resmi Pertamina, MyPertamina, atau pemerintah Indonesia.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Publik
 
-## Learning Laravel
+- Pencarian wilayah dengan autocomplete
+- Daftar harga BBM regional
+- Filter produk dan urutan harga
+- Detail wilayah dengan harga saat ini
+- Tren harga dan histori perubahan
+- Halaman About dinamis
+- Loading bar dan skeleton UI
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Admin
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Dashboard operasional
+- Sinkronisasi manual harga BBM
+- Sync logs dan audit logs
+- Manajemen user admin
+- Runtime settings
+- Konten About yang bisa diedit
+- Fetch profil GitHub untuk data creator
 
-## Laravel Sponsors
+## Tech Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Layer | Teknologi |
+|---|---|
+| Backend | Laravel 12, PHP 8.2 |
+| Frontend | Vue 3, Inertia.js, Vite |
+| Styling | Tailwind CSS |
+| Auth | Laravel Breeze |
+| Routing helper | Ziggy |
+| HTTP client | Axios, Laravel HTTP Client |
+| Testing | PHPUnit |
+| Tooling | Laravel Pint, Laravel Pail |
+| Database | MySQL / PostgreSQL / SQLite |
 
-### Premium Partners
+## Sumber Data
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Data harga BBM diambil dari **Bensin API**.
 
-## Contributing
+Konfigurasi utama:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```env
+FUEL_API_BASE_URL=https://nasgunawann.github.io/bensin-api
+FUEL_API_TIMEOUT=15
+FUEL_API_RETRY_ATTEMPTS=3
+FUEL_API_RETRY_SLEEP_MS=500
+FUEL_API_USER_AGENT="PantauBBM/1.0"
+```
 
-## Code of Conduct
+Lihat detail integrasi di `docs/05-api-integration.md` dan sync engine di `docs/06-sync-engine.md`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Instalasi
 
-## Security Vulnerabilities
+### 1. Clone repository
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone <repo-url>
+cd harga-bensin
+```
 
-## License
+### 2. Install dependency
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+npm install
+```
+
+### 3. Siapkan environment
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Minimal konfigurasi `.env`:
+
+```env
+APP_NAME=PantauBBM
+APP_URL=http://localhost
+APP_TIMEZONE=Asia/Jakarta
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=pantaubbm
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4. Migrasi dan seed
+
+```bash
+php artisan migrate --seed
+```
+
+Seeder membuat:
+
+- katalog produk BBM
+- admin default dari `ADMIN_*`
+- settings default termasuk konten About
+
+### 5. Jalankan development server
+
+Terminal 1:
+
+```bash
+php artisan serve
+```
+
+Terminal 2:
+
+```bash
+npm run dev
+```
+
+Buka aplikasi di `http://localhost:8000`.
+
+## Admin Default
+
+Atur credential admin lewat `.env`:
+
+```env
+ADMIN_NAME=Administrator
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=password
+ADMIN_REGISTRATION_ENABLED=false
+```
+
+Login admin lewat `/login`, lalu buka `/admin/dashboard`.
+
+## Sinkronisasi Data
+
+Sinkronisasi bisa dijalankan dari admin dashboard atau command scheduler.
+
+Contoh manual lewat Artisan:
+
+```bash
+php artisan fuel:sync
+```
+
+Jadwal sync dikontrol dari env/settings:
+
+```env
+FUEL_SYNC_SCHEDULE_CRON="0 */6 * * *"
+FUEL_SYNC_LOCK_STORE=file
+FUEL_SYNC_LOCK_SECONDS=600
+FUEL_SYNC_CACHE_STORE=file
+```
+
+## Build Production
+
+```bash
+npm run build
+```
+
+Untuk deployment Laravel umum:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+## Testing dan Quality Check
+
+```bash
+php artisan test
+npm run build
+```
+
+Jika memakai formatter Laravel Pint:
+
+```bash
+./vendor/bin/pint
+```
+
+## Struktur Direktori Penting
+
+```text
+app/
+├── Http/Controllers
+├── Models
+└── Services
+
+resources/js/
+├── Components
+├── Layouts
+└── Pages
+
+database/
+├── migrations
+└── seeders
+
+docs/
+└── *.md
+```
+
+## Dokumentasi
+
+Dokumentasi proyek ada di folder `docs/`.
+
+- `docs/01-project-overview.md` — gambaran proyek
+- `docs/02-branding-design-system.md` — brand dan design system
+- `docs/03-functional-requirements.md` — kebutuhan fitur
+- `docs/04-database-design.md` — desain database
+- `docs/05-api-integration.md` — integrasi Bensin API
+- `docs/06-sync-engine.md` — engine sinkronisasi
+- `docs/07-routing-navigation.md` — routing dan navigasi
+- `docs/08-frontend-architecture.md` — arsitektur frontend
+- `docs/09-backend-architecture.md` — arsitektur backend
+- `docs/10-seo-strategy.md` — strategi SEO
+- `docs/11-deployment.md` — deployment
+- `docs/roadmap.md` — roadmap
+
+Ringkasan dokumentasi ada di `README-docs.md`.
+
+## Environment Penting
+
+| Key | Fungsi |
+|---|---|
+| `APP_TIMEZONE` | Timezone aplikasi, default `Asia/Jakarta` |
+| `FUEL_API_BASE_URL` | Base URL Bensin API |
+| `FUEL_API_TIMEOUT` | Timeout request API |
+| `FUEL_SYNC_SCHEDULE_CRON` | Jadwal sync |
+| `ADMIN_EMAIL` | Email admin awal |
+| `ADMIN_PASSWORD` | Password admin awal |
+| `ADMIN_REGISTRATION_ENABLED` | Aktif/nonaktif registrasi publik |
+
+## Lisensi
+
+MIT

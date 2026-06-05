@@ -37,8 +37,8 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
         </SkeletonCard>
       </div>
       <div class="mb-14 border-b border-slate-200 pb-10">
-        <h1 class="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">About</h1>
-        <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl">Understanding the platform, the people behind it, and the data that powers it.</p>
+        <h1 class="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">Tentang</h1>
+        <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl">Mengenal platform ini, orang di baliknya, dan data yang menggerakkannya.</p>
       </div>
 
       <div class="grid gap-6 lg:grid-cols-[1.5fr_0.75fr]">
@@ -67,7 +67,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
               </div>
               <div>
                 <div class="text-4xl font-medium tracking-tight text-slate-950">{{ provinceCount ?? 0 }}</div>
-                <div class="mt-1 text-lg text-slate-600">Provinces Covered</div>
+                <div class="mt-1 text-lg text-slate-600">Provinsi tercakup</div>
               </div>
             </div>
           </UiCard>
@@ -78,7 +78,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
               </div>
               <div>
                 <div class="text-3xl font-medium tracking-tight text-slate-950">{{ latestSyncAt ? latestSyncAt : '—' }}</div>
-                <div class="mt-1 text-lg text-slate-600">Last Sync</div>
+                <div class="mt-1 text-lg text-slate-600">Sinkron terakhir</div>
               </div>
             </div>
           </UiCard>
@@ -87,11 +87,11 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
 
       <div class="mt-16 grid gap-8 lg:grid-cols-2">
         <section>
-          <h2 class="text-2xl font-medium tracking-tight text-slate-950 sm:text-3xl">Creator</h2>
+          <h2 class="text-2xl font-medium tracking-tight text-slate-950 sm:text-3xl">Pembuat</h2>
           <div class="mt-4 border-t border-slate-200 pt-8">
             <UiCard>
               <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
-                <img v-if="content.creatorPhotoUrl" :src="content.creatorPhotoUrl" :alt="content.creatorName || 'Creator'" class="h-28 w-28 shrink-0 rounded-full object-cover shadow-lg">
+                <img v-if="content.creatorPhotoUrl" :src="content.creatorPhotoUrl" :alt="content.creatorName || 'Pembuat'" class="h-28 w-28 shrink-0 rounded-full object-cover shadow-lg">
                 <div v-else class="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-slate-950 text-white shadow-lg"><span class="text-4xl font-semibold tracking-tight">{{ (content.creatorName || 'Pantau Dev Team').split(' ').map((word) => word[0]).join('').slice(0, 2) }}</span></div>
                 <div class="min-w-0">
                   <h3 class="text-3xl font-medium tracking-tight text-slate-950">{{ content.creatorName || 'Pantau Dev Team' }}</h3>
@@ -104,13 +104,13 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
         </section>
 
         <section>
-          <h2 class="text-2xl font-medium tracking-tight text-slate-950 sm:text-3xl">{{ content.sourcesTitle || 'Sources & Credits' }}</h2>
+          <h2 class="text-2xl font-medium tracking-tight text-slate-950 sm:text-3xl">{{ content.sourcesTitle || 'Sumber & Kredit' }}</h2>
           <div class="mt-4 border-t border-slate-200 pt-8">
             <UiCard>
               <div class="space-y-7">
                 <div class="flex gap-4"><div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg></div><div><h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceOneTitle || 'Bensin API' }}</h3><p class="mt-2 text-lg leading-8 text-slate-700">{{ content.sourceOneDescription || 'Sumber utama harga BBM yang dipakai untuk sinkronisasi data dan pembaruan tampilan.' }}</p><a v-if="hasUrl(content.sourceOneUrl)" :href="content.sourceOneUrl" target="_blank" rel="noreferrer" class="mt-2 inline-flex text-sm font-semibold text-slate-950 underline decoration-slate-300 underline-offset-4 transition hover:decoration-slate-950">{{ content.sourceOneLinkLabel || 'Buka link' }}</a></div></div>
-                <div class="flex gap-4"><div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path><path d="m8 4 4 4-4 4"></path></svg></div><div><h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceTwoTitle || 'Open Source Stack' }}</h3><p class="mt-2 text-lg leading-8 text-slate-700">{{ content.sourceTwoDescription || 'Dibangun dengan Laravel, Tailwind CSS, dan komponen frontend yang ringan supaya pengalaman tetap konsisten.' }}</p><a v-if="hasUrl(content.sourceTwoUrl)" :href="content.sourceTwoUrl" target="_blank" rel="noreferrer" class="mt-2 inline-flex text-sm font-semibold text-slate-950 underline decoration-slate-300 underline-offset-4 transition hover:decoration-slate-950">{{ content.sourceTwoLinkLabel || 'Buka link' }}</a></div></div>
-                <div class="flex gap-4"><div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M7 21V8"></path><path d="M12 21V3"></path><path d="M17 21v-8"></path></svg></div><div><h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceThreeTitle || 'Disclaimer' }}</h3><p class="mt-2 text-lg leading-8 text-slate-700">{{ content.sourceThreeDescription || 'PantauBBM adalah platform independen dan bukan situs resmi Pertamina atau pemerintah Indonesia.' }}</p><a v-if="hasUrl(content.sourceThreeUrl)" :href="content.sourceThreeUrl" target="_blank" rel="noreferrer" class="mt-2 inline-flex text-sm font-semibold text-slate-950 underline decoration-slate-300 underline-offset-4 transition hover:decoration-slate-950">{{ content.sourceThreeLinkLabel || 'Buka link' }}</a></div></div>
+                <div class="flex gap-4"><div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path><path d="m8 4 4 4-4 4"></path></svg></div><div><h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceTwoTitle || 'Tumpukan Open Source' }}</h3><p class="mt-2 text-lg leading-8 text-slate-700">{{ content.sourceTwoDescription || 'Dibangun dengan Laravel, Tailwind CSS, dan komponen frontend ringan supaya pengalaman tetap konsisten.' }}</p><a v-if="hasUrl(content.sourceTwoUrl)" :href="content.sourceTwoUrl" target="_blank" rel="noreferrer" class="mt-2 inline-flex text-sm font-semibold text-slate-950 underline decoration-slate-300 underline-offset-4 transition hover:decoration-slate-950">{{ content.sourceTwoLinkLabel || 'Buka tautan' }}</a></div></div>
+                <div class="flex gap-4"><div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M7 21V8"></path><path d="M12 21V3"></path><path d="M17 21v-8"></path></svg></div><div><h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceThreeTitle || 'Penafian' }}</h3><p class="mt-2 text-lg leading-8 text-slate-700">{{ content.sourceThreeDescription || 'PantauBBM adalah platform independen dan bukan situs resmi Pertamina atau pemerintah Indonesia.' }}</p><a v-if="hasUrl(content.sourceThreeUrl)" :href="content.sourceThreeUrl" target="_blank" rel="noreferrer" class="mt-2 inline-flex text-sm font-semibold text-slate-950 underline decoration-slate-300 underline-offset-4 transition hover:decoration-slate-950">{{ content.sourceThreeLinkLabel || 'Buka tautan' }}</a></div></div>
               </div>
             </UiCard>
           </div>

@@ -116,7 +116,7 @@ function priceRowLabel(region, price) {
         >
           <div class="mb-5 flex items-start justify-between gap-3">
             <div>
-              <div class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Region</div>
+              <div class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Wilayah</div>
               <div class="mt-2 text-2xl font-bold tracking-tight text-slate-950 transition group-hover:text-brand-primary md:text-[1.75rem]">{{ region.name }}</div>
             </div>
             <span class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">{{ region.prices.length }} produk</span>

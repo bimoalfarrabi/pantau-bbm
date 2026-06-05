@@ -159,7 +159,7 @@ function barHeight(price) {
       <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
         <Link :href="route('home')" class="hover:text-slate-950">Beranda</Link>
         <span>›</span>
-        <Link :href="`${route('home')}#daftar-regional`" class="hover:text-slate-950">Regions</Link>
+        <Link :href="`${route('home')}#daftar-regional`" class="hover:text-slate-950">Wilayah</Link>
         <span>›</span>
         <span class="text-slate-950">{{ regionName }}</span>
       </div>

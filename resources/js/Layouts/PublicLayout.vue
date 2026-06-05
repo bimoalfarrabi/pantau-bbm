@@ -57,7 +57,7 @@ defineProps({
         <BrandMark :label="publicShell.brand || 'PantauBBM'" />
       </Link>
       <div class="flex min-w-0 items-center justify-end gap-3 text-sm font-semibold text-slate-600 sm:gap-6">
-        <Link :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">About</Link>
+        <Link :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Tentang</Link>
       </div>
     </nav>
   </header>
@@ -257,9 +257,9 @@ defineProps({
         <p>{{ publicShell.copyright || '© 2026 PantauBBM' }}</p>
       </div>
       <div class="flex flex-wrap justify-center gap-3 text-sm font-semibold md:justify-start">
-        <Link :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">About</Link>
-        <Link :href="publicShell.links?.data_source || '/about#data-source'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Data Source</Link>
-        <a :href="`mailto:${publicShell.contact_email || 'hello@pantaubbm.local'}`" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Contact</a>
+        <Link :href="publicShell.links?.about || '/about'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Tentang</Link>
+        <Link :href="publicShell.links?.data_source || '/about#data-source'" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Sumber Data</Link>
+        <a :href="`mailto:${publicShell.contact_email || 'hello@pantaubbm.local'}`" class="rounded-full px-4 py-2 transition hover:bg-white hover:text-slate-950 hover:shadow-sm">Kontak</a>
       </div>
       <div class="w-full text-xs text-slate-500 md:w-auto md:text-right">
         <p>{{ publicShell.footer_note || 'Data powered by Bensin API.' }}</p>

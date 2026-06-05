@@ -149,7 +149,7 @@ function badgeClass(label) {
 }
 
 function barHeight(price) {
-  return `${35 + ((Number(price || 0) - chartRange.value.min) / chartRange.value.range) * 55}%`
+  return `${18 + ((Number(price || 0) - chartRange.value.min) / chartRange.value.range) * 62}%`
 }
 </script>
 
@@ -231,29 +231,39 @@ function barHeight(price) {
                 <div v-if="trendData.length === 0" class="mt-6 rounded-2xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500 sm:mt-8 sm:p-8">Histori belum tersedia untuk produk ini.</div>
                 <div v-else>
                   <div class="mt-6 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:mt-8 sm:p-5 lg:hidden">
-                    <div v-for="(item, index) in trendData.slice(0, 6)" :key="`${item.label}-${index}`" class="rounded-2xl border border-slate-200 bg-white p-3">
-                      <div class="flex items-center justify-between gap-3">
+                    <div v-for="(item, index) in trendData.slice(0, 6)" :key="`${item.label}-${index}`" class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                      <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                           <p class="truncate text-sm font-semibold text-slate-950">{{ item.label }}</p>
                           <p class="text-xs text-slate-500">{{ formatPrice(item.price) }}</p>
                         </div>
+                        <p class="shrink-0 text-xs font-semibold text-slate-500">{{ Math.round(((Number(item.price || 0) - chartRange.min) / chartRange.range) * 100) }}%</p>
                       </div>
-                      <div class="mt-3 h-2 overflow-hidden rounded-full bg-slate-200">
+                      <div class="mt-3 h-3 overflow-hidden rounded-full bg-slate-200">
                         <div class="h-full rounded-full bg-slate-950 transition-all duration-300" :style="{ width: `${Math.max(12, ((Number(item.price || 0) - chartRange.min) / chartRange.range) * 100)}%` }"></div>
                       </div>
                     </div>
                   </div>
 
                   <div class="mt-6 hidden rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:mt-8 sm:p-5 lg:block">
-                    <div class="flex h-64 items-end gap-4">
-                      <div v-for="(item, index) in trendData" :key="`${item.label}-${index}`" class="group flex w-16 shrink-0 flex-col items-center gap-2">
-                        <div class="relative flex h-48 w-full items-end">
-                          <div class="w-full rounded-t-xl bg-slate-950 transition-all duration-300" :style="{ height: barHeight(item.price) }"></div>
+                    <div class="grid h-72 grid-rows-[1fr_auto] gap-3">
+                      <div class="flex min-h-0 items-end gap-3 overflow-x-auto border-b border-slate-200 pb-0">
+                        <div v-for="(item, index) in trendData" :key="`${item.label}-${index}-bar`" class="group flex h-full w-20 shrink-0 items-end px-1">
+                          <div class="flex h-full w-full items-end rounded-t-2xl px-1.5 pt-2">
+                            <div class="w-full rounded-t-xl bg-gradient-to-t from-slate-950 to-slate-800 transition-all duration-300" :style="{ height: barHeight(item.price) }"></div>
+                          </div>
                         </div>
-                        <p class="w-full text-center text-xs font-semibold leading-4 text-slate-500 break-words">{{ item.label }}</p>
+                      </div>
+
+                      <div class="flex gap-3 overflow-x-auto">
+                        <div v-for="(item, index) in trendData" :key="`${item.label}-${index}-label`" class="flex w-20 shrink-0 flex-col items-center gap-1 px-1 text-center">
+                          <p class="min-h-10 w-full text-xs font-semibold leading-4 text-slate-500 break-words">{{ item.label }}</p>
+                          <p class="text-xs font-semibold text-slate-950">{{ formatPrice(item.price) }}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
+
                 </div>
               </UiCard>
 

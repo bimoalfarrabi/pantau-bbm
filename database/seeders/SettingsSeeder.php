@@ -25,6 +25,19 @@ class SettingsSeeder extends Seeder
             'about.creator.subtitle' => 'Systems Engineering',
             'about.creator.description' => 'Tim kecil yang fokus bangun alat data publik yang cepat, sederhana, dan enak dipakai. Kami percaya utility app tetap bisa terasa rapi, ringan, dan punya detail visual yang matang.',
             'about.creator.photo_url' => '',
+            'about.sources.title' => 'Sources & Credits',
+            'about.source_one.title' => 'Bensin API',
+            'about.source_one.description' => 'Sumber utama harga BBM yang dipakai untuk sinkronisasi data dan pembaruan tampilan.',
+            'about.source_one.link_label' => 'Buka link',
+            'about.source_one.url' => '',
+            'about.source_two.title' => 'Open Source Stack',
+            'about.source_two.description' => 'Dibangun dengan Laravel, Tailwind CSS, dan komponen frontend yang ringan supaya pengalaman tetap konsisten.',
+            'about.source_two.link_label' => 'Buka link',
+            'about.source_two.url' => '',
+            'about.source_three.title' => 'Disclaimer',
+            'about.source_three.description' => 'PantauBBM adalah platform independen dan bukan situs resmi Pertamina atau pemerintah Indonesia.',
+            'about.source_three.link_label' => 'Buka link',
+            'about.source_three.url' => '',
         ];
 
         foreach ($defaults as $key => $value) {

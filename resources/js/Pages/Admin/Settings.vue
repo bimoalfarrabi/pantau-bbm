@@ -31,7 +31,7 @@ const sections = [
   },
   {
     title: 'About Page',
-    description: 'Kontrol konten halaman About dari admin.',
+    description: 'Kontrol konten About dan credit publik.',
     fields: [
       { key: 'ABOUT_MISSION_TITLE', label: 'Mission Title', type: 'text', full: true },
       { key: 'ABOUT_MISSION_BODY', label: 'Mission Body', type: 'textarea', full: true },
@@ -40,6 +40,19 @@ const sections = [
       { key: 'ABOUT_CREATOR_SUBTITLE', label: 'Creator Subtitle', type: 'text' },
       { key: 'ABOUT_CREATOR_DESCRIPTION', label: 'Creator Description', type: 'textarea', full: true },
       { key: 'ABOUT_CREATOR_PHOTO_URL', label: 'Creator Photo URL', type: 'url', full: true },
+      { key: 'ABOUT_SOURCES_TITLE', label: 'Sources Title', type: 'text', full: true },
+      { key: 'ABOUT_SOURCE_ONE_TITLE', label: 'Source One Title', type: 'text' },
+      { key: 'ABOUT_SOURCE_ONE_DESCRIPTION', label: 'Source One Description', type: 'textarea', full: true },
+      { key: 'ABOUT_SOURCE_ONE_LINK_LABEL', label: 'Source One Link Label', type: 'text' },
+      { key: 'ABOUT_SOURCE_ONE_URL', label: 'Source One URL', type: 'url', full: true },
+      { key: 'ABOUT_SOURCE_TWO_TITLE', label: 'Source Two Title', type: 'text' },
+      { key: 'ABOUT_SOURCE_TWO_DESCRIPTION', label: 'Source Two Description', type: 'textarea', full: true },
+      { key: 'ABOUT_SOURCE_TWO_LINK_LABEL', label: 'Source Two Link Label', type: 'text' },
+      { key: 'ABOUT_SOURCE_TWO_URL', label: 'Source Two URL', type: 'url', full: true },
+      { key: 'ABOUT_SOURCE_THREE_TITLE', label: 'Source Three Title', type: 'text' },
+      { key: 'ABOUT_SOURCE_THREE_DESCRIPTION', label: 'Source Three Description', type: 'textarea', full: true },
+      { key: 'ABOUT_SOURCE_THREE_LINK_LABEL', label: 'Source Three Link Label', type: 'text' },
+      { key: 'ABOUT_SOURCE_THREE_URL', label: 'Source Three URL', type: 'url', full: true },
     ],
   },
 ]
@@ -106,25 +119,32 @@ async function fetchGithubProfile() {
           </summary>
 
           <div class="mt-6 grid gap-4 md:grid-cols-2">
-            <label v-for="field in section.fields" :key="field.key" class="block" :class="field.full ? 'md:col-span-2' : ''">
-              <span class="text-sm font-medium text-slate-700">{{ field.label }}</span>
-              <textarea v-if="field.type === 'textarea'" v-model="form[field.key]" class="mt-1 min-h-32 w-full rounded-xl border-slate-300"></textarea>
-              <input v-else v-model="form[field.key]" class="mt-1 w-full rounded-xl border-slate-300" :type="field.type">
-              <p v-if="field.key === 'ABOUT_CREATOR_GITHUB_USERNAME'" class="mt-2 text-xs text-slate-500">Kosongkan kalau tidak ingin mengambil data dari GitHub.</p>
-              <div v-if="field.key === 'ABOUT_CREATOR_PHOTO_URL'" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Preview</p>
-                <div class="mt-3 flex items-center gap-4">
-                  <img v-if="form.ABOUT_CREATOR_PHOTO_URL" :src="form.ABOUT_CREATOR_PHOTO_URL" alt="Creator photo preview" class="h-20 w-20 rounded-full object-cover shadow-sm">
-                  <div v-else class="flex h-20 w-20 items-center justify-center rounded-full bg-slate-950 text-xl font-semibold text-white shadow-sm">
-                    {{ (form.ABOUT_CREATOR_NAME || 'PB').split(' ').map((word) => word[0]).join('').slice(0, 2) }}
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-950">{{ form.ABOUT_CREATOR_NAME || 'Creator' }}</p>
-                    <p class="mt-1 text-sm text-slate-600">{{ form.ABOUT_CREATOR_SUBTITLE || 'Subtitle' }}</p>
+            <template v-for="field in section.fields" :key="field.key">
+              <div v-if="field.key === 'ABOUT_SOURCES_TITLE'" class="md:col-span-2 border-t border-slate-200 pt-6">
+                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Sources & Credits</p>
+                <p class="mt-1 text-sm text-slate-600">Edit judul dan isi setiap item sumber/credit.</p>
+              </div>
+                <label class="block" :class="field.full ? 'md:col-span-2' : ''">
+                  <span class="text-sm font-medium text-slate-700">{{ field.label }}</span>
+                  <textarea v-if="field.type === 'textarea'" v-model="form[field.key]" class="mt-1 min-h-32 w-full rounded-xl border-slate-300"></textarea>
+                  <input v-else v-model="form[field.key]" class="mt-1 w-full rounded-xl border-slate-300" :type="field.type">
+                  <p v-if="field.key === 'ABOUT_CREATOR_GITHUB_USERNAME'" class="mt-2 text-xs text-slate-500">Kosongkan kalau tidak ingin mengambil data dari GitHub.</p>
+                  <p v-if="field.key.endsWith('_URL')" class="mt-2 text-xs text-slate-500">Isi link publik yang ingin dibuat clickable.</p>
+                  <div v-if="field.key === 'ABOUT_CREATOR_PHOTO_URL'" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Preview</p>
+                  <div class="mt-3 flex items-center gap-4">
+                    <img v-if="form.ABOUT_CREATOR_PHOTO_URL" :src="form.ABOUT_CREATOR_PHOTO_URL" alt="Creator photo preview" class="h-20 w-20 rounded-full object-cover shadow-sm">
+                    <div v-else class="flex h-20 w-20 items-center justify-center rounded-full bg-slate-950 text-xl font-semibold text-white shadow-sm">
+                      {{ (form.ABOUT_CREATOR_NAME || 'PB').split(' ').map((word) => word[0]).join('').slice(0, 2) }}
+                    </div>
+                    <div>
+                      <p class="font-semibold text-slate-950">{{ form.ABOUT_CREATOR_NAME || 'Creator' }}</p>
+                      <p class="mt-1 text-sm text-slate-600">{{ form.ABOUT_CREATOR_SUBTITLE || 'Subtitle' }}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </label>
+              </label>
+            </template>
           </div>
           <div v-if="section.title === 'About Page'" class="mt-6 flex flex-wrap items-center gap-3">
             <button type="button" class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-50" :disabled="githubFetch.processing" @click="fetchGithubProfile">
@@ -153,6 +173,35 @@ async function fetchGithubProfile() {
                     <p class="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{{ form.ABOUT_CREATOR_SUBTITLE || 'Systems Engineering' }}</p>
                     <p class="mt-3 text-sm leading-6 text-slate-600">{{ form.ABOUT_CREATOR_DESCRIPTION || 'Deskripsi creator tampil di sini.' }}</p>
                     <p v-if="form.ABOUT_CREATOR_GITHUB_USERNAME" class="mt-3 text-xs font-medium text-slate-500">Source GitHub: @{{ form.ABOUT_CREATOR_GITHUB_USERNAME }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">{{ form.ABOUT_SOURCES_TITLE || 'Sources & Credits' }}</p>
+              <div class="mt-5 space-y-5">
+                <div class="flex gap-4">
+                  <div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg></div>
+                  <div>
+                    <h4 class="text-lg font-semibold text-slate-950">{{ form.ABOUT_SOURCE_ONE_TITLE || 'Bensin API' }}</h4>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">{{ form.ABOUT_SOURCE_ONE_DESCRIPTION || 'Sumber utama harga BBM yang dipakai untuk sinkronisasi data dan pembaruan tampilan.' }}</p>
+                    <p v-if="form.ABOUT_SOURCE_ONE_URL" class="mt-2 text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_ONE_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_ONE_URL }}</p>
+                  </div>
+                </div>
+                <div class="flex gap-4">
+                  <div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path><path d="m8 4 4 4-4 4"></path></svg></div>
+                  <div>
+                    <h4 class="text-lg font-semibold text-slate-950">{{ form.ABOUT_SOURCE_TWO_TITLE || 'Open Source Stack' }}</h4>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">{{ form.ABOUT_SOURCE_TWO_DESCRIPTION || 'Dibangun dengan Laravel, Tailwind CSS, dan komponen frontend yang ringan supaya pengalaman tetap konsisten.' }}</p>
+                    <p v-if="form.ABOUT_SOURCE_TWO_URL" class="mt-2 text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_TWO_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_TWO_URL }}</p>
+                  </div>
+                </div>
+                <div class="flex gap-4">
+                  <div class="mt-1 text-slate-950"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M7 21V8"></path><path d="M12 21V3"></path><path d="M17 21v-8"></path></svg></div>
+                  <div>
+                    <h4 class="text-lg font-semibold text-slate-950">{{ form.ABOUT_SOURCE_THREE_TITLE || 'Disclaimer' }}</h4>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">{{ form.ABOUT_SOURCE_THREE_DESCRIPTION || 'PantauBBM adalah platform independen dan bukan situs resmi Pertamina atau pemerintah Indonesia.' }}</p>
+                    <p v-if="form.ABOUT_SOURCE_THREE_URL" class="mt-2 text-sm font-medium text-slate-950">{{ form.ABOUT_SOURCE_THREE_LINK_LABEL || 'Buka link' }}: {{ form.ABOUT_SOURCE_THREE_URL }}</p>
                   </div>
                 </div>
               </div>

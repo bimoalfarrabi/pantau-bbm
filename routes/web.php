@@ -74,6 +74,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::post('/sync', [AdminDashboardController::class, 'syncNow'])->name('sync');
     Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
+    Route::post('/settings/fetch-github-profile', [AdminSettingsController::class, 'fetchGithubProfile'])->name('settings.fetch-github-profile');
     Route::get('/logs', [AdminSyncLogController::class, 'index'])->name('logs.index');
     Route::get('/audit-logs', [AdminAuditLogController::class, 'index'])->name('audit-logs.index');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');

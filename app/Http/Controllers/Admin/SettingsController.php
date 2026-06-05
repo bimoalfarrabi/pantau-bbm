@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Settings\SettingRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,6 +32,7 @@ class SettingsController extends Controller
                 'ABOUT_CREATOR_SUBTITLE' => $settings->get('about.creator.subtitle', 'Systems Engineering'),
                 'ABOUT_CREATOR_DESCRIPTION' => $settings->get('about.creator.description', 'Tim kecil yang fokus bangun alat data publik yang cepat, sederhana, dan enak dipakai. Kami percaya utility app tetap bisa terasa rapi, ringan, dan punya detail visual yang matang.'),
                 'ABOUT_CREATOR_PHOTO_URL' => $settings->get('about.creator.photo_url', ''),
+                'ABOUT_CREATOR_GITHUB_USERNAME' => $settings->get('about.creator.github_username', ''),
             ],
         ]);
     }
@@ -52,6 +55,7 @@ class SettingsController extends Controller
             'ABOUT_CREATOR_SUBTITLE' => ['required', 'string', 'max:255'],
             'ABOUT_CREATOR_DESCRIPTION' => ['required', 'string'],
             'ABOUT_CREATOR_PHOTO_URL' => ['nullable', 'url'],
+            'ABOUT_CREATOR_GITHUB_USERNAME' => ['nullable', 'string', 'max:255'],
         ]);
 
         $settingKeys = [
@@ -70,6 +74,7 @@ class SettingsController extends Controller
             'ABOUT_CREATOR_SUBTITLE' => 'about.creator.subtitle',
             'ABOUT_CREATOR_DESCRIPTION' => 'about.creator.description',
             'ABOUT_CREATOR_PHOTO_URL' => 'about.creator.photo_url',
+            'ABOUT_CREATOR_GITHUB_USERNAME' => 'about.creator.github_username',
         ];
 
         foreach ($settingKeys as $inputKey => $settingKey) {
@@ -77,5 +82,35 @@ class SettingsController extends Controller
         }
 
         return back()->with('status', 'Pengaturan operasional tersimpan.');
+    }
+
+    public function fetchGithubProfile(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+        ]);
+
+        $response = Http::acceptJson()
+            ->withHeaders([
+                'User-Agent' => config('fuel.api.user_agent', 'PantauBBM/1.0'),
+            ])
+            ->timeout(10)
+            ->get(sprintf('https://api.github.com/users/%s', rawurlencode($validated['username'])));
+
+        if (! $response->successful()) {
+            return response()->json([
+                'message' => 'Gagal mengambil profil GitHub.',
+            ], 422);
+        }
+
+        $profile = $response->json();
+
+        return response()->json([
+            'username' => $profile['login'] ?? $validated['username'],
+            'name' => $profile['name'] ?? '',
+            'bio' => $profile['bio'] ?? '',
+            'avatar_url' => $profile['avatar_url'] ?? '',
+            'html_url' => $profile['html_url'] ?? '',
+        ]);
     }
 }

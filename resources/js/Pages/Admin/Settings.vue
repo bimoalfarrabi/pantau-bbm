@@ -1,9 +1,11 @@
 <script setup>
+import { ref } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
 
 const props = defineProps({ settings: Object })
 const form = useForm(props.settings)
+const githubFetch = ref({ processing: false, message: '', error: '' })
 
 const sections = [
   {
@@ -33,6 +35,7 @@ const sections = [
     fields: [
       { key: 'ABOUT_MISSION_TITLE', label: 'Mission Title', type: 'text', full: true },
       { key: 'ABOUT_MISSION_BODY', label: 'Mission Body', type: 'textarea', full: true },
+      { key: 'ABOUT_CREATOR_GITHUB_USERNAME', label: 'GitHub Username (Optional)', type: 'text', full: true },
       { key: 'ABOUT_CREATOR_NAME', label: 'Creator Name', type: 'text' },
       { key: 'ABOUT_CREATOR_SUBTITLE', label: 'Creator Subtitle', type: 'text' },
       { key: 'ABOUT_CREATOR_DESCRIPTION', label: 'Creator Description', type: 'textarea', full: true },
@@ -40,6 +43,35 @@ const sections = [
     ],
   },
 ]
+
+async function fetchGithubProfile() {
+  githubFetch.value.processing = true
+  githubFetch.value.message = ''
+  githubFetch.value.error = ''
+
+  try {
+    const username = String(form.ABOUT_CREATOR_GITHUB_USERNAME || '').trim()
+
+    if (!username) {
+      githubFetch.value.error = 'Isi username GitHub dulu.'
+      return
+    }
+
+    const response = await window.axios.post(route('admin.settings.fetch-github-profile'), { username })
+    const data = response.data || {}
+
+    if (data.username) form.ABOUT_CREATOR_GITHUB_USERNAME = data.username
+    if (data.name) form.ABOUT_CREATOR_NAME = data.name
+    if (data.bio) form.ABOUT_CREATOR_DESCRIPTION = data.bio
+    if (data.avatar_url) form.ABOUT_CREATOR_PHOTO_URL = data.avatar_url
+
+    githubFetch.value.message = 'Profil GitHub berhasil diambil. Review lalu simpan kalau sudah oke.'
+  } catch (error) {
+    githubFetch.value.error = error?.response?.data?.message || 'Gagal mengambil profil GitHub.'
+  } finally {
+    githubFetch.value.processing = false
+  }
+}
 </script>
 
 <template>
@@ -78,6 +110,7 @@ const sections = [
               <span class="text-sm font-medium text-slate-700">{{ field.label }}</span>
               <textarea v-if="field.type === 'textarea'" v-model="form[field.key]" class="mt-1 min-h-32 w-full rounded-xl border-slate-300"></textarea>
               <input v-else v-model="form[field.key]" class="mt-1 w-full rounded-xl border-slate-300" :type="field.type">
+              <p v-if="field.key === 'ABOUT_CREATOR_GITHUB_USERNAME'" class="mt-2 text-xs text-slate-500">Kosongkan kalau tidak ingin mengambil data dari GitHub.</p>
               <div v-if="field.key === 'ABOUT_CREATOR_PHOTO_URL'" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Preview</p>
                 <div class="mt-3 flex items-center gap-4">
@@ -92,6 +125,13 @@ const sections = [
                 </div>
               </div>
             </label>
+          </div>
+          <div v-if="section.title === 'About Page'" class="mt-6 flex flex-wrap items-center gap-3">
+            <button type="button" class="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-50" :disabled="githubFetch.processing" @click="fetchGithubProfile">
+              {{ githubFetch.processing ? 'Mengambil...' : 'Fetch GitHub' }}
+            </button>
+            <span v-if="githubFetch.message" class="text-sm font-medium text-emerald-700">{{ githubFetch.message }}</span>
+            <span v-if="githubFetch.error" class="text-sm font-medium text-rose-700">{{ githubFetch.error }}</span>
           </div>
           <div v-if="section.title === 'About Page'" class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">About Preview</p>
@@ -112,6 +152,7 @@ const sections = [
                     <h4 class="text-xl font-semibold tracking-tight text-slate-950">{{ form.ABOUT_CREATOR_NAME || 'Pantau Dev Team' }}</h4>
                     <p class="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{{ form.ABOUT_CREATOR_SUBTITLE || 'Systems Engineering' }}</p>
                     <p class="mt-3 text-sm leading-6 text-slate-600">{{ form.ABOUT_CREATOR_DESCRIPTION || 'Deskripsi creator tampil di sini.' }}</p>
+                    <p v-if="form.ABOUT_CREATOR_GITHUB_USERNAME" class="mt-3 text-xs font-medium text-slate-500">Source GitHub: @{{ form.ABOUT_CREATOR_GITHUB_USERNAME }}</p>
                   </div>
                 </div>
               </div>

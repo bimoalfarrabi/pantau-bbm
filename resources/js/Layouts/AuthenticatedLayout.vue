@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
+import AdminToast from '@/Components/AdminToast.vue'
 import BrandMark from '@/Components/BrandMark.vue'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
@@ -9,6 +10,11 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 const showingNavigationDropdown = ref(false)
 const page = usePage()
 const publicShell = page.props.publicShell || {}
+const flash = computed(() => page.props.flash || {})
+const showToast = ref(false)
+const toastTitle = computed(() => flash.value.sync_status === 'error' ? 'Sync gagal' : 'Sync berhasil')
+const toastVariant = computed(() => flash.value.sync_status === 'error' ? 'error' : 'success')
+const toastDetails = computed(() => flash.value.sync_finished_at ? `Selesai: ${formatDate(flash.value.sync_finished_at)}` : '')
 
 const adminLinks = [
   { label: 'Dashboard', routeName: 'admin.dashboard', pattern: 'admin.dashboard' },
@@ -17,10 +23,40 @@ const adminLinks = [
   { label: 'Audit', routeName: 'admin.audit-logs.index', pattern: 'admin.audit-logs.*' },
   { label: 'Settings', routeName: 'admin.settings.index', pattern: 'admin.settings.*' },
 ]
+
+watch(
+  () => flash.value.sync_message,
+  (message) => {
+    if (!message) return
+
+    showToast.value = true
+    setTimeout(() => {
+      showToast.value = false
+    }, 6000)
+  },
+  { immediate: true },
+)
+
+function formatDate(value) {
+  if (!value) return '-'
+  return new Date(value).toLocaleString('id-ID', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  })
+}
 </script>
 
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-900">
+    <AdminToast
+      :show="showToast"
+      :variant="toastVariant"
+      :title="toastTitle"
+      :message="flash.sync_message"
+      :details="toastDetails"
+      @close="showToast = false"
+    />
+
     <nav class="border-b border-slate-200 bg-slate-50/95 backdrop-blur">
       <div class="mx-auto max-w-[1280px] px-5 py-4">
         <div class="flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap">

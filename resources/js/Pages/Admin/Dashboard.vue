@@ -1,6 +1,6 @@
 <script setup>
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
-import { computed, ref, watch } from 'vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import Modal from '../../Components/Modal.vue'
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
 
@@ -10,24 +10,8 @@ defineProps({
   quickLinks: Array,
 })
 
-const page = usePage()
-const flash = computed(() => page.props.flash || {})
 const confirmingSync = ref(false)
-const showSyncToast = ref(false)
 const syncForm = useForm({ force: false })
-
-watch(
-  () => flash.value.sync_message,
-  (message) => {
-    if (!message) return
-
-    showSyncToast.value = true
-    setTimeout(() => {
-      showSyncToast.value = false
-    }, 6000)
-  },
-  { immediate: true },
-)
 
 function confirmSync() {
   syncForm.force = false
@@ -68,41 +52,6 @@ function statusClass(status) {
 <template>
   <Head title="Admin Dashboard" />
   <AuthenticatedLayout>
-    <Transition
-      enter-active-class="transition ease-out duration-200"
-      enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-      enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-      leave-active-class="transition ease-in duration-150"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <div v-if="showSyncToast && flash.sync_message" class="fixed right-4 top-4 z-50 w-[calc(100%-2rem)] max-w-md rounded-2xl border bg-white p-4 shadow-xl sm:right-6 sm:top-6" :class="flash.sync_status === 'success' ? 'border-emerald-200' : 'border-rose-200'">
-        <div class="flex gap-3">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full" :class="flash.sync_status === 'success' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'">
-            <svg v-if="flash.sync_status === 'success'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6 9 17l-5-5"></path>
-            </svg>
-            <svg v-else class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="text-sm font-semibold text-slate-950">{{ flash.sync_status === 'success' ? 'Sync berhasil' : 'Sync gagal' }}</div>
-            <p class="mt-1 text-sm leading-5 text-slate-600">{{ flash.sync_message }}</p>
-            <p v-if="flash.sync_finished_at" class="mt-2 text-xs text-slate-500">Selesai: {{ formatDate(flash.sync_finished_at) }}</p>
-          </div>
-          <button type="button" class="rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600" @click="showSyncToast = false">
-            <span class="sr-only">Tutup notifikasi</span>
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </Transition>
-
     <template #header>
       <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div class="max-w-3xl">

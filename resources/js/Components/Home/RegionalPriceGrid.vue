@@ -177,7 +177,7 @@ function priceRowLabel(region, price) {
           </label>
         </div>
 
-        <div class="flex items-center gap-1 overflow-x-auto pb-1 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-2 sm:flex-wrap sm:justify-end">
+        <div class="-my-2 flex items-center gap-1 overflow-x-auto px-1 py-2 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:overflow-visible sm:gap-2 sm:flex-wrap sm:justify-end">
           <button
             type="button"
             class="shrink-0 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-primary hover:text-brand-primary disabled:cursor-not-allowed disabled:opacity-40"
@@ -201,8 +201,8 @@ function priceRowLabel(region, price) {
             v-for="page in pageNumbers"
             :key="page"
             type="button"
-            class="h-10 min-w-10 shrink-0 rounded-full px-3 text-sm font-semibold transition-colors duration-200"
-            :class="page === currentPage ? 'bg-gradient-to-r from-slate-950 to-slate-800 text-white shadow-lg shadow-slate-950/20 ring-1 ring-slate-900/10' : 'border border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary'"
+            class="relative h-10 min-w-10 shrink-0 rounded-full px-3 text-sm font-semibold transition duration-200"
+            :class="page === currentPage ? 'z-10 bg-gradient-to-r from-slate-950 to-slate-800 text-white shadow-lg shadow-slate-950/20 ring-1 ring-slate-900/10' : 'border border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-brand-primary hover:text-brand-primary'"
             :aria-current="page === currentPage ? 'page' : null"
             @click="$emit('go-to-page', page)"
           >

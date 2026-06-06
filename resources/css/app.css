@@ -11,11 +11,6 @@ body {
     min-width: 320px;
 }
 
-#nprogress .bar {
-    height: 5px !important;
-    box-shadow: 0 0 22px rgba(15, 23, 42, 0.22);
-}
-
 #pantau-loading-bar {
     position: fixed;
     top: 0;

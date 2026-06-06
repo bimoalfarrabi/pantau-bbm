@@ -244,4 +244,4 @@ Ringkasan dokumentasi ada di `README-docs.md`.
 
 ## Lisensi
 
-MIT
+Proyek ini memakai lisensi [MIT](LICENSE).

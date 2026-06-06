@@ -63,10 +63,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
           <UiCard>
             <div class="flex items-center gap-5">
               <div class="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-700">
-                <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z"></path>
-                  <circle cx="12" cy="10" r="2.2"></circle>
-                </svg>
+                <font-awesome-icon :icon="['far', 'map']" class="h-7 w-7" />
               </div>
               <div>
                 <div class="text-4xl font-medium tracking-tight text-slate-950">{{ provinceCount ?? 0 }}</div>
@@ -77,12 +74,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
           <UiCard>
             <div class="flex items-center gap-5">
               <div class="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-700">
-                <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 12a9 9 0 0 1-15.3 6.4"></path>
-                  <path d="M3 12a9 9 0 0 1 15.3-6.4"></path>
-                  <path d="M3 6v5h5"></path>
-                  <path d="M21 18v-5h-5"></path>
-                </svg>
+                <font-awesome-icon :icon="['far', 'clock']" class="h-7 w-7" />
               </div>
               <div>
                 <div class="text-3xl font-medium tracking-tight text-slate-950">{{ latestSyncAt ? latestSyncAt : '—' }}</div>
@@ -118,11 +110,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
               <div class="space-y-7">
                 <div class="flex gap-4">
                   <div class="mt-1 text-slate-950">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                      <ellipse cx="12" cy="5" rx="8" ry="3"></ellipse>
-                      <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path>
-                      <path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path>
-                    </svg>
+                    <font-awesome-icon :icon="['far', 'hard-drive']" class="h-6 w-6" />
                   </div>
                   <div>
                     <h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceOneTitle || 'Bensin API' }}</h3>
@@ -132,11 +120,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
                 </div>
                 <div class="flex gap-4">
                   <div class="mt-1 text-slate-950">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 3 4 7l8 4 8-4-8-4Z"></path>
-                      <path d="m4 12 8 4 8-4"></path>
-                      <path d="m4 17 8 4 8-4"></path>
-                    </svg>
+                    <font-awesome-icon :icon="['far', 'object-group']" class="h-6 w-6" />
                   </div>
                   <div>
                     <h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceTwoTitle || 'Tumpukan Open Source' }}</h3>
@@ -146,11 +130,7 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
                 </div>
                 <div class="flex gap-4">
                   <div class="mt-1 text-slate-950">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="9"></circle>
-                      <path d="M12 8h.01"></path>
-                      <path d="M11 12h1v4h1"></path>
-                    </svg>
+                    <font-awesome-icon :icon="['far', 'circle-question']" class="h-6 w-6" />
                   </div>
                   <div>
                     <h3 class="text-2xl font-medium tracking-tight text-slate-950">{{ content.sourceThreeTitle || 'Penafian' }}</h3>

@@ -253,7 +253,6 @@ function barHeight(price) {
                           <p class="truncate text-sm font-semibold text-slate-950">{{ item.label }}</p>
                           <p class="text-xs text-slate-500">{{ formatPrice(item.price) }}</p>
                         </div>
-                        <p class="shrink-0 text-xs font-semibold text-slate-500">{{ Math.round(((Number(item.price || 0) - chartRange.min) / chartRange.range) * 100) }}%</p>
                       </div>
                       <div class="mt-3 h-3 overflow-hidden rounded-full bg-slate-200">
                         <div class="h-full rounded-full bg-slate-950 transition-all duration-300" :style="{ width: `${Math.max(12, ((Number(item.price || 0) - chartRange.min) / chartRange.range) * 100)}%` }"></div>

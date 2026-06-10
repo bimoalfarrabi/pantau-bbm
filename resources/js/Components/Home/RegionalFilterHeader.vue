@@ -38,11 +38,11 @@ defineEmits([
       <div>
         <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Regional pricing</p>
         <h2 class="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl md:text-4xl">Daftar Harga Regional</h2>
-        <p class="mt-3 text-sm text-slate-600">{{ productCount }} produk BBM • {{ visibleRegionCount }} region tampil</p>
+        <p class="mt-3 text-sm text-slate-700">{{ productCount }} produk BBM • {{ visibleRegionCount }} region tampil</p>
       </div>
 
       <div class="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto lg:justify-end">
-        <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-center text-sm font-semibold text-slate-700">{{ visibleRegionCount }} region</span>
+        <span class="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-center text-sm font-semibold text-slate-800">{{ visibleRegionCount }} region</span>
         <label class="sr-only" for="sortMode">Urutkan daftar regional</label>
         <span class="relative inline-flex w-full sm:w-auto">
           <select
@@ -61,7 +61,7 @@ defineEmits([
     </div>
 
     <div class="mt-5 flex items-center gap-2 overflow-x-auto pb-1 text-sm sm:gap-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <span class="shrink-0 rounded-full bg-slate-100 px-4 py-2 font-semibold text-slate-500">Produk</span>
+      <span class="shrink-0 rounded-full bg-slate-200 px-4 py-2 font-semibold text-slate-700">Produk</span>
       <button
         class="shrink-0 cursor-pointer rounded-full px-4 py-2 font-semibold transition-colors duration-200 sm:px-5"
         :disabled="isLoading"

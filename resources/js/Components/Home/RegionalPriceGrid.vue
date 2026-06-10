@@ -101,7 +101,7 @@ function priceRowLabel(region, price) {
       </div>
 
       <div v-else-if="visibleRegionalPrices.length === 0" key="empty" class="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 text-center shadow-sm md:p-10">
-        <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-sm font-bold text-slate-400">0</div>
+        <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-sm font-bold text-slate-700">0</div>
         <p class="text-lg font-semibold text-slate-950">Belum ada data untuk {{ activeProductLabel }}.</p>
         <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-600">Coba pilih filter lain atau jalankan sinkronisasi data terbaru untuk memperbarui daftar harga.</p>
       <button class="mt-5 rounded-full bg-slate-950 px-5 py-2 text-sm font-semibold text-white" @click="$emit('reset-filter')">Tampilkan semua</button>
@@ -116,7 +116,7 @@ function priceRowLabel(region, price) {
         >
           <div class="mb-5 flex items-start justify-between gap-3">
             <div>
-              <div class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Wilayah</div>
+              <div class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Wilayah</div>
               <div class="mt-2 text-2xl font-bold tracking-tight text-slate-950 transition group-hover:text-brand-primary md:text-[1.75rem]">{{ region.name }}</div>
             </div>
             <span class="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">{{ region.prices.length }} produk</span>
@@ -139,7 +139,7 @@ function priceRowLabel(region, price) {
               </div>
               <span
                 class="inline-flex min-w-[7.5rem] shrink-0 items-center justify-center rounded-full px-3 py-1 text-center font-mono text-sm font-semibold tabular-nums md:text-[15px]"
-                :class="isUnavailable(price.price) ? 'bg-slate-100 text-slate-400' : 'bg-white text-slate-950 shadow-sm ring-1 ring-slate-200'"
+                :class="isUnavailable(price.price) ? 'bg-slate-100 text-slate-600' : 'bg-white text-slate-950 shadow-sm ring-1 ring-slate-200'"
               >
                 {{ formatPrice(price.price) }}
               </span>

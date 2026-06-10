@@ -2,14 +2,9 @@ import '../css/app.css';
 import './bootstrap';
 
 import { createInertiaApp, router } from '@inertiajs/vue3';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCircleQuestion, faClock, faHardDrive, faMap, faObjectGroup } from '@fortawesome/free-regular-svg-icons';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-
-library.add(faMap, faClock, faHardDrive, faObjectGroup, faCircleQuestion);
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 const loadingBarId = 'pantau-loading-bar';
@@ -67,7 +62,6 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
-            .component('FontAwesomeIcon', FontAwesomeIcon)
             .use(ZiggyVue)
             .mount(el);
     },

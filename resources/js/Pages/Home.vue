@@ -1,12 +1,12 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, nextTick, ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
 import PublicLayout from '../Layouts/PublicLayout.vue'
 import SectionShell from '../Components/SectionShell.vue'
-import UiCard from '../Components/UiCard.vue'
 import SearchRegion from '../Components/Home/SearchRegion.vue'
-import RegionalFilterHeader from '../Components/Home/RegionalFilterHeader.vue'
-import RegionalPriceGrid from '../Components/Home/RegionalPriceGrid.vue'
+
+const RegionalFilterHeader = defineAsyncComponent(() => import('../Components/Home/RegionalFilterHeader.vue'))
+const RegionalPriceGrid = defineAsyncComponent(() => import('../Components/Home/RegionalPriceGrid.vue'))
 
 const props = defineProps({
   regions: Array,

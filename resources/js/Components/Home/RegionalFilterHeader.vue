@@ -36,7 +36,7 @@ defineEmits([
   <div class="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm sm:rounded-[2rem] sm:p-5 md:p-7">
     <div class="flex flex-col gap-4 border-b border-slate-100 pb-6 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">Regional pricing</p>
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-600">Regional pricing</p>
         <h2 class="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl md:text-4xl">Daftar Harga Regional</h2>
         <p class="mt-3 text-sm text-slate-700">{{ productCount }} produk BBM • {{ visibleRegionCount }} region tampil</p>
       </div>

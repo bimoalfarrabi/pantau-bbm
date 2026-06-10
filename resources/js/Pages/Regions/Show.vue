@@ -26,6 +26,7 @@ const selectedProductId = ref('all')
 const formatter = new Intl.NumberFormat('id-ID')
 const regionName = computed(() => props.region?.name || titleCase(props.slug.replaceAll('-', ' ')))
 const prices = computed(() => props.region?.prices || [])
+const historyProductNames = computed(() => Object.fromEntries((props.historyProducts || []).map((product) => [String(product.id), product.name])))
 const lastSyncedAt = computed(() => prices.value.map((price) => price.last_synced_at).filter(Boolean).sort().at(-1))
 const selectedProduct = computed(() => props.historyProducts?.find((product) => String(product.id) === String(selectedProductId.value)) || props.region?.prices?.find((price) => String(price.fuel_product_id) === String(selectedProductId.value))?.product)
 const selectedEntries = computed(() => (selectedProductId.value === 'all' ? Object.values(props.historyEntries || {}).flat() : props.historyEntries?.[selectedProductId.value] || []))
@@ -105,10 +106,20 @@ function priceDelta(entry) {
   return entry.newPrice - entry.oldPrice
 }
 
+function priceDeltaPercent(entry) {
+  if (entry.oldPrice === null || entry.newPrice === null || entry.oldPrice === 0) return 0
+  return ((entry.newPrice - entry.oldPrice) / entry.oldPrice) * 100
+}
+
+function formatPercent(value) {
+  return `${new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(Math.abs(value))}%`
+}
+
 function deltaLabel(entry) {
   const delta = priceDelta(entry)
-  if (delta > 0) return `+Rp${formatter.format(delta)}`
-  if (delta < 0) return `-Rp${formatter.format(Math.abs(delta))}`
+  const percent = priceDeltaPercent(entry)
+  if (delta > 0) return `+Rp${formatter.format(delta)} (${formatPercent(percent)})`
+  if (delta < 0) return `-Rp${formatter.format(Math.abs(delta))} (${formatPercent(percent)})`
   return 'Tetap'
 }
 
@@ -125,8 +136,9 @@ function currentPriceDeltaLabel(price) {
   if (!entry) return '— Tetap'
 
   const delta = priceDelta(entry)
-  if (delta > 0) return `↗ +Rp${formatter.format(delta)}`
-  if (delta < 0) return `↘ -Rp${formatter.format(Math.abs(delta))}`
+  const percent = priceDeltaPercent(entry)
+  if (delta > 0) return `↗ +Rp${formatter.format(delta)} (${formatPercent(percent)})`
+  if (delta < 0) return `↘ -Rp${formatter.format(Math.abs(delta))} (${formatPercent(percent)})`
   return '— Tetap'
 }
 
@@ -279,8 +291,9 @@ function barHeight(price) {
                 </h2>
                 <div v-if="selectedEntries.length === 0" class="mt-6 rounded-2xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500 sm:p-8">Belum ada perubahan harga untuk produk ini.</div>
                 <div v-else class="mt-6 grid gap-4 sm:grid-cols-2">
-                  <div v-for="entry in selectedEntries.slice(0, 4)" :key="entry.changedAt" class="rounded-2xl border border-slate-200 p-4">
-                    <p class="font-semibold text-slate-950">{{ formatDate(entry.changedAt) }}</p>
+                  <div v-for="entry in selectedEntries.slice(0, 4)" :key="`${entry.productId}-${entry.changedAt}`" class="rounded-2xl border border-slate-200 p-4">
+                    <p class="font-semibold text-slate-950">{{ entry.productName || historyProductNames[entry.productId] || selectedProduct?.name || 'Produk' }}</p>
+                    <p class="mt-1 text-sm text-slate-500">{{ formatDate(entry.changedAt) }}</p>
                     <p class="mt-2 text-sm text-slate-600">{{ formatPrice(entry.oldPrice) }} → {{ formatPrice(entry.newPrice) }}</p>
                     <p class="mt-2 text-xs font-semibold" :class="deltaClass(entry)">{{ deltaLabel(entry) }}</p>
                   </div>

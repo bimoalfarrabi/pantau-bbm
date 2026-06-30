@@ -65,10 +65,6 @@ function formatPrice(price) {
   return price === null ? 'Tidak tersedia' : `Rp ${new Intl.NumberFormat('id-ID').format(price)}`
 }
 
-function isUnavailable(price) {
-  return price === null
-}
-
 function availablePrices(region) {
   return region.prices.map((price) => price.price).filter((price) => price !== null)
 }
@@ -139,7 +135,7 @@ function priceRowLabel(region, price) {
               </div>
               <span
                 class="inline-flex min-w-[7.5rem] shrink-0 items-center justify-center rounded-full px-3 py-1 text-center font-mono text-sm font-semibold tabular-nums md:text-[15px]"
-                :class="isUnavailable(price.price) ? 'bg-slate-100 text-slate-600' : 'bg-white text-slate-950 shadow-sm ring-1 ring-slate-200'"
+                :class="price.price === null ? 'bg-slate-100 text-slate-600' : 'bg-white text-slate-950 shadow-sm ring-1 ring-slate-200'"
               >
                 {{ formatPrice(price.price) }}
               </span>

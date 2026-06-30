@@ -6,6 +6,8 @@ import SectionShell from '../Components/SectionShell.vue'
 import SearchRegion from '../Components/Home/SearchRegion.vue'
 import RegionalFilterHeader from '../Components/Home/RegionalFilterHeader.vue'
 import RegionalPriceGrid from '../Components/Home/RegionalPriceGrid.vue'
+import SkeletonCard from '../Components/SkeletonCard.vue'
+import SkeletonLine from '../Components/SkeletonLine.vue'
 
 const props = defineProps({
   regions: Array,
@@ -173,6 +175,50 @@ function cleanRegionalQuery(query) {
 
 <template>
   <PublicLayout :seo="seo">
+    <template #skeleton>
+      <div class="space-y-6">
+        <div class="mx-auto max-w-3xl space-y-4 text-center">
+          <SkeletonLine class="mx-auto h-10 w-3/4" />
+          <SkeletonLine class="mx-auto h-5 w-2/3" />
+        </div>
+        <SkeletonCard>
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div class="space-y-3">
+              <SkeletonLine class="h-4 w-40" />
+              <SkeletonLine class="h-9 w-72" />
+              <SkeletonLine class="h-4 w-56" />
+            </div>
+            <div class="flex gap-3">
+              <SkeletonLine class="h-10 w-28" />
+              <SkeletonLine class="h-10 w-44" />
+            </div>
+          </div>
+          <div class="mt-6 flex gap-3 overflow-hidden">
+            <SkeletonLine v-for="index in 5" :key="index" class="h-10 w-28 shrink-0" />
+          </div>
+        </SkeletonCard>
+        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <SkeletonCard v-for="index in 6" :key="index">
+            <div class="space-y-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="space-y-3">
+                  <SkeletonLine class="h-4 w-20" />
+                  <SkeletonLine class="h-8 w-44" />
+                </div>
+                <SkeletonLine class="h-7 w-20" />
+              </div>
+              <div class="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                <SkeletonLine class="h-5 w-full" />
+                <SkeletonLine class="h-5 w-5/6" />
+                <SkeletonLine class="h-5 w-4/6" />
+              </div>
+              <SkeletonLine class="h-11 w-full" />
+            </div>
+          </SkeletonCard>
+        </div>
+      </div>
+    </template>
+
     <SectionShell>
       <div class="text-center">
         <div class="mx-auto max-w-3xl">

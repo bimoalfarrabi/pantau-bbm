@@ -5,6 +5,8 @@ import PublicLayout from '../../Layouts/PublicLayout.vue'
 import SectionShell from '../../Components/SectionShell.vue'
 import UiCard from '../../Components/UiCard.vue'
 import SectionHeader from '../../Components/SectionHeader.vue'
+import SkeletonCard from '../../Components/SkeletonCard.vue'
+import SkeletonLine from '../../Components/SkeletonLine.vue'
 
 const props = defineProps({
   region: Object,
@@ -101,42 +103,38 @@ function formatShortDate(value) {
   return value ? new Date(value).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : 'Saat ini'
 }
 
-function priceDelta(entry) {
-  if (entry.oldPrice === null || entry.newPrice === null) return 0
-  return entry.newPrice - entry.oldPrice
-}
-
-function priceDeltaPercent(entry) {
-  if (entry.oldPrice === null || entry.newPrice === null || entry.oldPrice === 0) return 0
-  return ((entry.newPrice - entry.oldPrice) / entry.oldPrice) * 100
+// Returns { delta, percent } for an entry. Both 0 when prices are null/zero.
+function computeDelta(entry) {
+  if (entry.oldPrice === null || entry.newPrice === null) return { delta: 0, percent: 0 }
+  const delta = entry.newPrice - entry.oldPrice
+  const percent = entry.oldPrice === 0 ? 0 : (delta / entry.oldPrice) * 100
+  return { delta, percent }
 }
 
 function formatPercent(value) {
   return `${new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(Math.abs(value))}%`
 }
 
+// label and class for history entries (uses +/- prefix)
 function deltaLabel(entry) {
-  const delta = priceDelta(entry)
-  const percent = priceDeltaPercent(entry)
+  const { delta, percent } = computeDelta(entry)
   if (delta > 0) return `+Rp${formatter.format(delta)} (${formatPercent(percent)})`
   if (delta < 0) return `-Rp${formatter.format(Math.abs(delta))} (${formatPercent(percent)})`
   return 'Tetap'
 }
 
 function deltaClass(entry) {
-  const delta = priceDelta(entry)
+  const { delta } = computeDelta(entry)
   if (delta > 0) return 'text-rose-600'
   if (delta < 0) return 'text-emerald-600'
   return 'text-slate-500'
 }
 
+// label and class for current price cards (uses ↗/↘ prefix, looks up entry by product id)
 function currentPriceDeltaLabel(price) {
   const entry = latestChangeByProduct.value[price.fuel_product_id]
-
   if (!entry) return '— Tetap'
-
-  const delta = priceDelta(entry)
-  const percent = priceDeltaPercent(entry)
+  const { delta, percent } = computeDelta(entry)
   if (delta > 0) return `↗ +Rp${formatter.format(delta)} (${formatPercent(percent)})`
   if (delta < 0) return `↘ -Rp${formatter.format(Math.abs(delta))} (${formatPercent(percent)})`
   return '— Tetap'
@@ -144,13 +142,7 @@ function currentPriceDeltaLabel(price) {
 
 function currentPriceDeltaClass(price) {
   const entry = latestChangeByProduct.value[price.fuel_product_id]
-  if (!entry) return 'text-slate-500'
-
-  return deltaClass(entry)
-}
-
-function selectedProductName() {
-  return selectedProductId.value === 'all' ? 'Semua Produk' : selectedProduct.value?.name || 'Produk'
+  return entry ? deltaClass(entry) : 'text-slate-500'
 }
 
 function badgeClass(label) {
@@ -167,6 +159,29 @@ function barHeight(price) {
 
 <template>
   <PublicLayout :seo="seo">
+    <template #skeleton>
+      <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
+        <SkeletonCard>
+          <div class="space-y-4">
+            <SkeletonLine class="h-8 w-1/2" />
+            <SkeletonLine class="h-5 w-full" />
+            <SkeletonLine class="h-5 w-5/6" />
+            <SkeletonLine class="h-5 w-4/5" />
+          </div>
+        </SkeletonCard>
+        <SkeletonCard>
+          <div class="space-y-5">
+            <SkeletonLine class="h-8 w-2/5" />
+            <div class="space-y-3">
+              <SkeletonLine class="h-14 w-full" />
+              <SkeletonLine class="h-14 w-full" />
+              <SkeletonLine class="h-14 w-full" />
+            </div>
+          </div>
+        </SkeletonCard>
+      </div>
+    </template>
+
     <SectionShell>
       <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
         <Link :href="route('home')" class="hover:text-slate-950">Beranda</Link>

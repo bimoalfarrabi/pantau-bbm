@@ -84,7 +84,7 @@ Route::get('/dashboard', function () {
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function (): void {
     Route::get('/', fn () => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
-    Route::post('/sync', [AdminDashboardController::class, 'syncNow'])->name('sync');
+    Route::post('/sync', [AdminDashboardController::class, 'syncNow'])->middleware('throttle:3,1')->name('sync');
     Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
     Route::post('/settings/fetch-github-profile', [AdminSettingsController::class, 'fetchGithubProfile'])->name('settings.fetch-github-profile');

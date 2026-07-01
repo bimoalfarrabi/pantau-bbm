@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        $search = trim((string) $request->query('search', ''));
+        $search = mb_substr(trim((string) $request->query('search', '')), 0, 100);
         $activeProductSlug = (string) $request->query('product', 'all');
         $sortMode = (string) $request->query('sort', 'lowest');
         $perPage = $this->perPage((int) $request->query('perPage', 6));

@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function index(Request $request): Response
     {
-        $search = $request->query('search');
+        $search = $request->query('search') ? mb_substr((string) $request->query('search'), 0, 100) : null;
         $role = $request->query('role');
         $status = $request->query('status', 'active');
 

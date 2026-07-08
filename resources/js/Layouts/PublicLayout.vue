@@ -39,7 +39,7 @@ defineProps({
 
   <main>
     <Transition name="fade-slide" mode="out-in">
-      <div v-if="isPageLoading" class="border-b border-slate-200 bg-slate-50" aria-hidden="true">
+      <div v-if="isPageLoading" key="skeleton" class="border-b border-slate-200 bg-slate-50" aria-hidden="true">
         <div class="mx-auto max-w-[1280px] px-5 py-8">
           <!-- Skeleton: halaman wilayah/show -->
           <template v-if="skeletonType === 'region'">
@@ -120,8 +120,10 @@ defineProps({
           </template>
         </div>
       </div>
+      <div v-else key="content">
+        <slot />
+      </div>
     </Transition>
-    <slot />
   </main>
 
   <footer id="tentang-data" class="border-t border-slate-200 bg-slate-50">

@@ -23,6 +23,7 @@ function hidePageSkeleton() {
 // Detect skeleton type based on destination URL
 const skeletonType = computed(() => {
   if (/\/wilayah\//.test(destinationUrl.value)) return 'region'
+  if (/\/about/.test(destinationUrl.value)) return 'about'
   return 'home'
 })
 
@@ -89,6 +90,36 @@ defineProps({
                   </div>
                 </div>
               </SkeletonCard>
+            </div>
+          </template>
+
+          <!-- Skeleton: halaman about -->
+          <template v-else-if="skeletonType === 'about'">
+            <div class="grid gap-6 lg:grid-cols-[1.5fr_0.75fr]">
+              <SkeletonCard>
+                <div class="space-y-5">
+                  <SkeletonLine class="h-10 w-1/2" />
+                  <SkeletonLine class="h-5 w-full" />
+                  <SkeletonLine class="h-5 w-5/6" />
+                  <SkeletonLine class="h-5 w-4/5" />
+                </div>
+              </SkeletonCard>
+              <div class="space-y-6">
+                <SkeletonCard>
+                  <div class="space-y-4">
+                    <SkeletonLine class="h-8 w-1/3" />
+                    <SkeletonLine class="h-5 w-full" />
+                    <SkeletonLine class="h-5 w-2/3" />
+                  </div>
+                </SkeletonCard>
+                <SkeletonCard>
+                  <div class="space-y-4">
+                    <SkeletonLine class="h-8 w-1/3" />
+                    <SkeletonLine class="h-5 w-full" />
+                    <SkeletonLine class="h-5 w-2/3" />
+                  </div>
+                </SkeletonCard>
+              </div>
             </div>
           </template>
 

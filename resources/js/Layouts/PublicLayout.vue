@@ -1,41 +1,13 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import BrandMark from '@/Components/BrandMark.vue'
 import SkeletonCard from '@/Components/SkeletonCard.vue'
 import SkeletonLine from '@/Components/SkeletonLine.vue'
 import PublicSkeletonGrid from '@/Components/PublicSkeletonGrid.vue'
+import { isPageLoading, skeletonType } from '@/pageLoading.js'
 
 const page = usePage()
 const publicShell = page.props.publicShell || {}
-const isPageLoading = ref(false)
-const destinationUrl = ref('')
-
-function showPageSkeleton(event) {
-  destinationUrl.value = event.detail?.url || ''
-  isPageLoading.value = true
-}
-
-function hidePageSkeleton() {
-  isPageLoading.value = false
-}
-
-// Detect skeleton type based on destination URL
-const skeletonType = computed(() => {
-  if (/\/wilayah\//.test(destinationUrl.value)) return 'region'
-  if (/\/about/.test(destinationUrl.value)) return 'about'
-  return 'home'
-})
-
-onMounted(() => {
-  window.addEventListener('pantau:loading-start', showPageSkeleton)
-  window.addEventListener('pantau:loading-finish', hidePageSkeleton)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('pantau:loading-start', showPageSkeleton)
-  window.removeEventListener('pantau:loading-finish', hidePageSkeleton)
-})
 
 defineProps({
   seo: Object,

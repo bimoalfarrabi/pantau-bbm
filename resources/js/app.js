@@ -5,6 +5,7 @@ import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { isPageLoading, destinationUrl } from './pageLoading.js';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 const loadingBarId = 'pantau-loading-bar';
@@ -33,7 +34,9 @@ router.on('start', (event) => {
     clearTimeout(loadingFinishTimer);
     loadingStartedAt = performance.now();
     loadingBar().classList.add('is-loading');
-    window.dispatchEvent(new CustomEvent('pantau:loading-start', { detail: { url: event.detail.visit.url?.href || '' } }));
+    const targetUrl = event.detail.visit.url?.href || event.detail.visit.url?.toString() || String(event.detail.visit.url || '');
+    destinationUrl.value = targetUrl;
+    isPageLoading.value = true;
 });
 
 router.on('finish', (event) => {
@@ -48,7 +51,7 @@ router.on('finish', (event) => {
 
     loadingFinishTimer = setTimeout(() => {
         loadingBar().classList.remove('is-loading');
-        window.dispatchEvent(new CustomEvent('pantau:loading-finish'));
+        isPageLoading.value = false;
     }, remainingMs);
 });
 

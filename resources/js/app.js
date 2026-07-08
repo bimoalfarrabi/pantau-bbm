@@ -33,7 +33,7 @@ router.on('start', (event) => {
     clearTimeout(loadingFinishTimer);
     loadingStartedAt = performance.now();
     loadingBar().classList.add('is-loading');
-    window.dispatchEvent(new CustomEvent('pantau:loading-start'));
+    window.dispatchEvent(new CustomEvent('pantau:loading-start', { detail: { url: event.detail.visit.url?.href || '' } }));
 });
 
 router.on('finish', (event) => {

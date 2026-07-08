@@ -24,35 +24,6 @@ const hasUrl = (url) => typeof url === 'string' && url.trim().length > 0
 
 <template>
   <PublicLayout :seo="seo">
-    <template #skeleton>
-      <div class="grid gap-6 lg:grid-cols-[1.5fr_0.75fr]">
-        <SkeletonCard>
-          <div class="space-y-5">
-            <SkeletonLine class="h-10 w-1/2" />
-            <SkeletonLine class="h-5 w-full" />
-            <SkeletonLine class="h-5 w-5/6" />
-            <SkeletonLine class="h-5 w-4/5" />
-          </div>
-        </SkeletonCard>
-        <div class="space-y-6">
-          <SkeletonCard>
-            <div class="space-y-4">
-              <SkeletonLine class="h-8 w-1/3" />
-              <SkeletonLine class="h-5 w-full" />
-              <SkeletonLine class="h-5 w-2/3" />
-            </div>
-          </SkeletonCard>
-          <SkeletonCard>
-            <div class="space-y-4">
-              <SkeletonLine class="h-8 w-1/3" />
-              <SkeletonLine class="h-5 w-full" />
-              <SkeletonLine class="h-5 w-2/3" />
-            </div>
-          </SkeletonCard>
-        </div>
-      </div>
-    </template>
-
     <SectionShell>
       <div v-if="provinceCount === undefined || latestSyncAt === undefined" class="mb-10 grid gap-6 lg:grid-cols-2">
         <SkeletonCard>

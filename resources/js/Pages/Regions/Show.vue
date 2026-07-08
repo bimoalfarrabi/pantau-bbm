@@ -159,29 +159,6 @@ function barHeight(price) {
 
 <template>
   <PublicLayout :seo="seo">
-    <template #skeleton>
-      <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
-        <SkeletonCard>
-          <div class="space-y-4">
-            <SkeletonLine class="h-8 w-1/2" />
-            <SkeletonLine class="h-5 w-full" />
-            <SkeletonLine class="h-5 w-5/6" />
-            <SkeletonLine class="h-5 w-4/5" />
-          </div>
-        </SkeletonCard>
-        <SkeletonCard>
-          <div class="space-y-5">
-            <SkeletonLine class="h-8 w-2/5" />
-            <div class="space-y-3">
-              <SkeletonLine class="h-14 w-full" />
-              <SkeletonLine class="h-14 w-full" />
-              <SkeletonLine class="h-14 w-full" />
-            </div>
-          </div>
-        </SkeletonCard>
-      </div>
-    </template>
-
     <SectionShell>
       <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600">
         <Link :href="route('home')" class="hover:text-slate-950">Beranda</Link>

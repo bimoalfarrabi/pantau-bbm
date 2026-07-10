@@ -134,28 +134,93 @@ defineProps({
 
           <!-- Skeleton: halaman about -->
           <template v-else-if="skeletonType === 'about'">
+            <!-- Title -->
+            <div class="mb-12 pb-8 border-b border-slate-200">
+              <SkeletonLine class="h-14 w-48 mb-5" />
+              <SkeletonLine class="h-6 w-full max-w-2xl mb-2" />
+              <SkeletonLine class="h-6 w-11/12 max-w-2xl" />
+            </div>
+            <!-- Grid 1.5fr : 0.75fr -->
             <div class="grid gap-6 lg:grid-cols-[1.5fr_0.75fr]">
+              <!-- Left: mission card -->
               <SkeletonCard>
                 <div class="space-y-5">
-                  <SkeletonLine class="h-10 w-1/2" />
+                  <div class="flex items-center gap-3">
+                    <SkeletonLine class="h-8 w-8 rounded-full" />
+                    <SkeletonLine class="h-8 w-48" />
+                  </div>
                   <SkeletonLine class="h-5 w-full" />
-                  <SkeletonLine class="h-5 w-5/6" />
+                  <SkeletonLine class="h-5 w-full" />
+                  <SkeletonLine class="h-5 w-11/12" />
                   <SkeletonLine class="h-5 w-4/5" />
                 </div>
               </SkeletonCard>
+              <!-- Right: stats stacked -->
               <div class="space-y-6">
                 <SkeletonCard>
-                  <div class="space-y-4">
-                    <SkeletonLine class="h-8 w-1/3" />
-                    <SkeletonLine class="h-5 w-full" />
-                    <SkeletonLine class="h-5 w-2/3" />
+                  <div class="flex items-center gap-4">
+                    <SkeletonLine class="h-16 w-16 rounded-full shrink-0" />
+                    <div class="space-y-2">
+                      <SkeletonLine class="h-10 w-20" />
+                      <SkeletonLine class="h-5 w-36" />
+                    </div>
                   </div>
                 </SkeletonCard>
                 <SkeletonCard>
-                  <div class="space-y-4">
-                    <SkeletonLine class="h-8 w-1/3" />
-                    <SkeletonLine class="h-5 w-full" />
-                    <SkeletonLine class="h-5 w-2/3" />
+                  <div class="flex items-center gap-4">
+                    <SkeletonLine class="h-16 w-16 rounded-full shrink-0" />
+                    <div class="space-y-2">
+                      <SkeletonLine class="h-8 w-40" />
+                      <SkeletonLine class="h-5 w-28" />
+                    </div>
+                  </div>
+                </SkeletonCard>
+              </div>
+            </div>
+            <!-- Bottom 2-col: Pembuat + Sumber -->
+            <div class="mt-14 grid gap-8 lg:grid-cols-2">
+              <!-- Left: Pembuat -->
+              <div>
+                <SkeletonLine class="h-8 w-32 mb-8" />
+                <SkeletonCard>
+                  <div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+                    <SkeletonLine class="h-28 w-28 rounded-full shrink-0" />
+                    <div class="space-y-3">
+                      <SkeletonLine class="h-9 w-48" />
+                      <SkeletonLine class="h-4 w-28" />
+                      <SkeletonLine class="h-5 w-full" />
+                      <SkeletonLine class="h-5 w-11/12" />
+                    </div>
+                  </div>
+                </SkeletonCard>
+              </div>
+              <!-- Right: Sumber & Kredit -->
+              <div>
+                <SkeletonLine class="h-8 w-44 mb-8" />
+                <SkeletonCard>
+                  <div class="space-y-6">
+                    <div class="flex gap-4">
+                      <SkeletonLine class="h-6 w-6 shrink-0" />
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-7 w-40" />
+                        <SkeletonLine class="h-5 w-full" />
+                        <SkeletonLine class="h-5 w-4/5" />
+                      </div>
+                    </div>
+                    <div class="flex gap-4">
+                      <SkeletonLine class="h-6 w-6 shrink-0" />
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-7 w-48" />
+                        <SkeletonLine class="h-5 w-full" />
+                      </div>
+                    </div>
+                    <div class="flex gap-4">
+                      <SkeletonLine class="h-6 w-6 shrink-0" />
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-7 w-28" />
+                        <SkeletonLine class="h-5 w-full" />
+                      </div>
+                    </div>
                   </div>
                 </SkeletonCard>
               </div>

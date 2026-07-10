@@ -43,22 +43,89 @@ defineProps({
         <div class="mx-auto max-w-[1280px] px-5 py-8">
           <!-- Skeleton: halaman wilayah/show -->
           <template v-if="skeletonType === 'region'">
+            <!-- Breadcrumb -->
+            <div class="mb-6 flex items-center gap-2 text-sm text-slate-400">
+              <SkeletonLine class="h-4 w-16" />
+              <span>›</span>
+              <SkeletonLine class="h-4 w-16" />
+              <span>›</span>
+              <SkeletonLine class="h-4 w-32" />
+            </div>
+            <!-- Header: title + status badge -->
+            <div class="mb-8 flex items-end justify-between gap-4">
+              <div class="space-y-3">
+                <SkeletonLine class="h-10 w-64" />
+                <SkeletonLine class="h-4 w-48" />
+              </div>
+              <SkeletonLine class="h-10 w-36 rounded-xl" />
+            </div>
+            <!-- Main grid: harga saat ini + tren/perubahan -->
             <div class="grid gap-6 lg:grid-cols-[0.95fr_1.95fr]">
+              <!-- Left: Harga Saat Ini -->
               <SkeletonCard>
                 <div class="space-y-4">
-                  <SkeletonLine class="h-8 w-1/2" />
-                  <SkeletonLine class="h-5 w-full" />
-                  <SkeletonLine class="h-5 w-5/6" />
-                  <SkeletonLine class="h-5 w-4/5" />
+                  <SkeletonLine class="h-7 w-36" />
+                  <div class="space-y-4">
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-6 w-20 rounded-md" />
+                        <SkeletonLine class="h-5 w-32" />
+                        <SkeletonLine class="h-5 w-24" />
+                      </div>
+                      <SkeletonLine class="h-10 w-24 rounded-full" />
+                    </div>
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-6 w-20 rounded-md" />
+                        <SkeletonLine class="h-5 w-32" />
+                        <SkeletonLine class="h-5 w-24" />
+                      </div>
+                      <SkeletonLine class="h-10 w-24 rounded-full" />
+                    </div>
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-6 w-20 rounded-md" />
+                        <SkeletonLine class="h-5 w-32" />
+                        <SkeletonLine class="h-5 w-24" />
+                      </div>
+                      <SkeletonLine class="h-10 w-24 rounded-full" />
+                    </div>
+                  </div>
                 </div>
               </SkeletonCard>
+              <!-- Right: Tren Harga + Perubahan Terakhir -->
+              <div class="space-y-6">
+                <SkeletonCard>
+                  <div class="space-y-4">
+                    <div class="flex items-end justify-between">
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-7 w-28" />
+                        <SkeletonLine class="h-4 w-40" />
+                      </div>
+                      <SkeletonLine class="h-10 w-36 rounded-xl" />
+                    </div>
+                    <div class="mt-6 grid grid-cols-8 gap-2">
+                      <SkeletonLine v-for="i in 8" :key="i" class="h-32" />
+                    </div>
+                  </div>
+                </SkeletonCard>
+                <SkeletonCard>
+                  <div class="space-y-4">
+                    <SkeletonLine class="h-7 w-40" />
+                    <div class="grid gap-3 sm:grid-cols-2">
+                      <SkeletonLine v-for="i in 4" :key="i" class="h-20" />
+                    </div>
+                  </div>
+                </SkeletonCard>
+              </div>
+            </div>
+            <!-- Bottom: Histori Lengkap -->
+            <div class="mt-6">
               <SkeletonCard>
-                <div class="space-y-5">
-                  <SkeletonLine class="h-8 w-2/5" />
-                  <div class="space-y-3">
-                    <SkeletonLine class="h-14 w-full" />
-                    <SkeletonLine class="h-14 w-full" />
-                    <SkeletonLine class="h-14 w-full" />
+                <div class="space-y-4">
+                  <SkeletonLine class="h-7 w-32" />
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    <SkeletonLine v-for="i in 6" :key="i" class="h-16" />
                   </div>
                 </div>
               </SkeletonCard>

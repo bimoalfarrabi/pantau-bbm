@@ -229,25 +229,77 @@ defineProps({
 
           <!-- Skeleton: halaman home (default) -->
           <template v-else>
-            <div class="space-y-6">
-              <div class="mx-auto max-w-3xl space-y-4 text-center">
-                <SkeletonLine class="mx-auto h-10 w-3/4" />
-                <SkeletonLine class="mx-auto h-5 w-2/3" />
+            <!-- Hero: title + search bar -->
+            <div class="text-center">
+              <SkeletonLine class="mx-auto h-14 w-96 max-w-full" />
+              <SkeletonLine class="mx-auto mt-5 h-6 w-full max-w-2xl" />
+              <SkeletonLine class="mx-auto mt-1 h-6 w-11/12 max-w-2xl" />
+              <!-- Search bar -->
+              <div class="mx-auto mt-8 max-w-5xl rounded-[1.75rem] border border-slate-200 bg-white/95 px-4 py-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)] sm:rounded-[2.5rem] sm:px-5 sm:py-5">
+                <div class="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 sm:gap-3 sm:rounded-full sm:px-5">
+                  <SkeletonLine class="h-6 w-6 shrink-0" />
+                  <SkeletonLine class="h-6 flex-1" />
+                </div>
               </div>
-              <SkeletonCard>
-                <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div class="space-y-3">
-                    <SkeletonLine class="h-4 w-40" />
+            </div>
+
+            <!-- Daftar Regional -->
+            <div class="mt-16">
+              <!-- Filter header -->
+              <div class="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm sm:rounded-[2rem] sm:p-5 md:p-7">
+                <div class="flex flex-col gap-4 border-b border-slate-100 pb-6 lg:flex-row lg:items-center lg:justify-between">
+                  <div class="space-y-2">
+                    <SkeletonLine class="h-3 w-32" />
                     <SkeletonLine class="h-9 w-72" />
-                    <SkeletonLine class="h-4 w-56" />
+                    <SkeletonLine class="h-4 w-40" />
                   </div>
-                  <div class="flex gap-3">
-                    <SkeletonLine class="h-10 w-28" />
-                    <SkeletonLine class="h-10 w-44" />
+                  <div class="flex items-center gap-3">
+                    <SkeletonLine class="h-10 w-28 rounded-full" />
+                    <SkeletonLine class="h-10 w-36 rounded-full" />
                   </div>
                 </div>
-              </SkeletonCard>
-              <PublicSkeletonGrid :cards="6" />
+                <div class="mt-5 flex items-center gap-2 overflow-x-auto pb-1 sm:gap-3">
+                  <SkeletonLine class="h-9 w-16 shrink-0 rounded-full" />
+                  <SkeletonLine class="h-9 w-20 shrink-0 rounded-full" />
+                  <SkeletonLine class="h-9 w-24 shrink-0 rounded-full" />
+                  <SkeletonLine class="h-9 w-20 shrink-0 rounded-full" />
+                  <SkeletonLine class="h-9 w-16 shrink-0 rounded-full" />
+                </div>
+              </div>
+
+              <!-- Price card grid -->
+              <div class="mt-8">
+                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                  <SkeletonCard v-for="i in 6" :key="i">
+                    <div class="mb-5 flex items-start justify-between gap-3">
+                      <div class="space-y-2">
+                        <SkeletonLine class="h-3 w-16" />
+                        <SkeletonLine class="h-8 w-36" />
+                      </div>
+                      <SkeletonLine class="h-6 w-16 shrink-0" />
+                    </div>
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70">
+                      <div v-for="row in 3" :key="row" class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
+                        <SkeletonLine class="h-4 w-3/4" />
+                        <SkeletonLine class="h-7 w-28 shrink-0" />
+                      </div>
+                    </div>
+                    <SkeletonLine class="mt-4 h-4 w-32" />
+                  </SkeletonCard>
+                </div>
+              </div>
+
+              <!-- Pagination -->
+              <div class="mt-8 flex items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-5">
+                <SkeletonLine class="h-4 w-40" />
+                <div class="flex items-center gap-2">
+                  <SkeletonLine class="h-10 w-20 rounded-full" />
+                  <SkeletonLine class="h-10 w-10 rounded-full" />
+                  <SkeletonLine class="h-10 w-10 rounded-full bg-slate-950" />
+                  <SkeletonLine class="h-10 w-10 rounded-full" />
+                  <SkeletonLine class="h-10 w-20 rounded-full" />
+                </div>
+              </div>
             </div>
           </template>
         </div>
